@@ -41,7 +41,7 @@
 				{% for estudio in estudios %}
 				<tr class="columna">
 					{% if estudio.tipo == "FS" %}
-					<td colspan="1"><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
+					<td ><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
 					<td></td>
 					<td></td>
 					{% elif estudio.tipo == "BIO" %}

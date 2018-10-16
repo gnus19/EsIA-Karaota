@@ -12,33 +12,33 @@ TIPO_RELEVANCIA = (
 	('IN', 'Indirecto'),	
 	)
 GRADO_PERTUBACION = (
-	('F' ,'Fuerte'),
-	('M', 'Medio'),
-	('S', 'Suave'),
+	'Fuerte',
+	'Medio',
+	'Suave',
 	)
 VALOR_SA = (
-	('MA', 'Muy Alto'),
-	('A', 'Alto'),
-	('M', 'Medio'),
-	('B', 'Bajo'),
+	'Muy Alto',
+	'Alto',
+	'Medio',
+	'Bajo',
 	)
 EXT_CLASIFICACION = (
-	('GE', 'Generalizada (>75%)'),
-	('EX', 'Extensiva (35-74%)'),
-	('LO', 'Local (10-34%)'),
-	('PU', 'Puntual (<10%)'),
+	'Generalizada (>75%)',
+	'Extensiva (35-74%)',
+	'Local (10-34%)',
+	'Puntual (<10%)',
 	)
 DUR_CRITERIOS = (
-	('M2', 'Menos de 2 años'),
-	('M2-5', '2 a 5 años'),
-	('M5-10', '5 a 10 años'),
-	('M10', 'mas de 10 años'),
+	'Menos de 2 años',
+	'2 a 5 años',
+	'5 a 10 años',
+	'mas de 10 años',
 	)
 REV_CLASIFICACION = (
-	('IR', 'Irreversible'),
-	('TR', 'Requiere Tratamiento'),
-	('MR', 'Medianamente Reversible'),
-	('RE', 'Reversible'),
+	 'Irreversible',
+	 'Requiere Tratamiento',
+	 'Medianamente Reversible',
+	 'Reversible',
 	)
 
 MEDIOS = (
