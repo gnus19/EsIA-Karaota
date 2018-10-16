@@ -25,11 +25,11 @@ def index(request):
 			lista[i].append(estudios_fisicos[i])
 		else:
 			lista[i].append(None)
-
+ 
 	for i in range(0, maximo):
 		if i < cant_biologicos:
 			lista[i].append(estudios_biologicos[i])
-		else:
+		else:   
 			lista[i].append(None)
 
 	print(lista)

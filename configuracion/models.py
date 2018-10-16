@@ -12,35 +12,34 @@ TIPO_RELEVANCIA = (
 	('IN', 'Indirecto'),	
 	)
 GRADO_PERTUBACION = (
-	'Fuerte',
-	'Medio',
-	'Suave',
+	('F' ,'Fuerte'),
+	('M', 'Medio'),
+	('S', 'Suave'),
 	)
 VALOR_SA = (
-	'Muy Alto',
-	'Alto',
-	'Medio',
-	'Bajo',
+	('MA', 'Muy Alto'),
+	('A', 'Alto'),
+	('M', 'Medio'),
+	('B', 'Bajo'),
 	)
 EXT_CLASIFICACION = (
-	'Generalizada (>75%)',
-	'Extensiva (35-74%)',
-	'Local (10-34%)',
-	'Puntual (<10%)',
+	('GE', 'Generalizada (>75%)'),
+	('EX', 'Extensiva (35-74%)'),
+	('LO', 'Local (10-34%)'),
+	('PU', 'Puntual (<10%)'),
 	)
 DUR_CRITERIOS = (
-	'Menos de 2 años',
-	'2 a 5 años',
-	'5 a 10 años',
-	'mas de 10 años',
+	('M2', 'Menos de 2 años'),
+	('M2-5', '2 a 5 años'),
+	('M5-10', '5 a 10 años'),
+	('M10', 'mas de 10 años'),
 	)
 REV_CLASIFICACION = (
-	 'Irreversible',
-	 'Requiere Tratamiento',
-	 'Medianamente Reversible',
-	 'Reversible',
+	('IR', 'Irreversible'),
+	('TR', 'Requiere Tratamiento'),
+	('MR', 'Medianamente Reversible'),
+	('RE', 'Reversible'),
 	)
-
 MEDIOS = (
 	('FS','Fisico'),
 	('BIO','Biologico'), 
@@ -52,16 +51,23 @@ class Estudio(models.Model):
 	tipo = models.CharField(choices=MEDIOS, max_length=25, default="")
 	valoracion_relevancia = models.CharField(choices=NIVEL_RELEVANCIA, max_length=6, default="")
 	tipo_relevancia = models.CharField(choices=TIPO_RELEVANCIA, max_length=25, default="")
-	intensidad = models.IntegerField()
-	extension =  models.IntegerField()
-	duracion = models.IntegerField()
-	reversibilidad = models.IntegerField()
-	probabilidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+	grado_perturbacion_intensidad = models.CharField(choices=GRADO_PERTUBACION, max_length=25, default="")
+	valor_sociocultural_intensidad = models.CharField(choices=VALOR_SA, max_length=25, default="")
+	intensidad = models.IntegerField(default=0)
+	clasificacion_extension = models.CharField(choices=EXT_CLASIFICACION, max_length=25, default="")
+	extension =  models.IntegerField(default=0)
+	criterio_duracion = models.CharField(choices=DUR_CRITERIOS, max_length=25, default="")
+	duracion = models.IntegerField(default=0)
+	clasificacion_reversibilidad = models.CharField(choices=REV_CLASIFICACION, max_length=25, default="") 
+	reversibilidad = models.IntegerField(default=0)
+	probabilidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
 	pondIntensidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	pondExtension = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	pondDuracion = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	pondReversibilidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	pondProbabilidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	via = models.FloatField(default=0.0)
+	importancia_estudio =  models.CharField(max_length=25, default="")
+	valor_estudio = models.IntegerField(default=0)
 
 	
