@@ -55,7 +55,6 @@ class Estudio(models.Model):
 	intensidad = models.IntegerField()
 	extension =  models.IntegerField()
 	duracion = models.IntegerField()
-	duracion = models.IntegerField()
 	reversibilidad = models.IntegerField()
 	probabilidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	pondIntensidad = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
