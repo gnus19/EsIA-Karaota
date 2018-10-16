@@ -117,17 +117,17 @@
 				</div>
 			</div>
 		</form>
-			{% if object %}
-				<div class="row justify-content-center">
-					<div class="col-md-6 col-md-offset-3">
-						<form  method="POST" action="{% url 'eliminar_estudio' object.pk %}">
-							{% csrf_token %}
-							<a onclick = "return confirm('¿Está seguro de los datos introducidos?')" href="{% url 'eliminar_estudio' object.pk %}">
-							<button  class="btn btn-danger" >Eliminar</button></a>
-						</form>
-					</div>
+		{% if object %}
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-md-offset-3">
+					<form  method="POST" action="{% url 'eliminar_estudio' object.pk %}">
+						{% csrf_token %}
+						<a onclick = "return confirm('¿Está seguro de eliminar este estudio?')" href="{% url 'eliminar_estudio' object.pk %}">
+						<button  class="btn btn-danger" >Eliminar</button></a>
+					</form>
 				</div>
-			{% endif %}
+			</div>
+		{% endif %}
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
