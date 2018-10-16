@@ -37,22 +37,16 @@
 					<td>Medios Biologicos</td>
 					<td>Medios Socio-Cultural</td>
 				</tr>
-				{% if estudios %}
-				{% for estudio in estudios %}
-				<tr class="columna">
-					{% if estudio.tipo == "FS" %}
-					<td ><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
-					<td></td>
-					<td></td>
-					{% elif estudio.tipo == "BIO" %}
-					<td></td>
-					<td><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
-					<td></td>
+				{% if lista %}
+				{% for estudio in lista %}
+				<tr class</td>
+					{% for x in estudio %}
+					{% if x%}
+					<td> <a href="{% url 'editar_estudio' x.id %}">{{x.nombre}}</a> </td>
 					{% else %}
-					<td></td>
-					<td></td>
-					<td><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
+					<td> </td>
 					{% endif %}
+					{% endfor %}
 				</tr>
 				{% endfor %}
 				{% endif %}
