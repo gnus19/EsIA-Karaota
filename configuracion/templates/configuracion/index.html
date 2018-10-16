@@ -44,6 +44,7 @@
 					{% elif estudio.tipo == "BIO" %}
 					<td></td>
 					<td><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
+					<td></td>
 					{% else %}
 					<td></td>
 					<td></td>
@@ -53,8 +54,8 @@
 				{% endfor %}
 				{% endif %}
 			</table>
+			<a class="btn btn-primary" href="{% url 'agregar_estudio' %}">Agregar Estudio</a>
 		</div>
-		<a class="btn btn-primary" href="{% url 'agregar_estudio' %}">Agregar Estudio</a>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -19,95 +19,96 @@
 	</script>
 </head>
 <body>
-	<br>
+	<br><br>
 	<div class="container">
 		<div class="row justify-content-center">
-			<h2> Agregar un Estudio </h2>
+			<h1> Agregar un Estudio </h1>
 			<br>
 		</div>
 		<form method="post">
+		<br>
 			{% csrf_token %}
 			
 			<div class="row">
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.nombre.label}}</label>
 						{{form.nombre}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.tipo.label}}</label>
 						{{form.tipo}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.valoracion_relevancia.label}}</label>
 						{{form.valoracion_relevancia}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.tipo_relevancia.label}}</label>
 						{{form.tipo_relevancia}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.intensidad.label}}</label>
 						{{form.intensidad}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.extension.label}}</label>
 						{{form.extension}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.duracion.label}}</label>
 						{{form.duracion}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.reversibilidad.label}}</label>
 						{{form.reversibilidad}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.probabilidad.label}}</label>
 						{{form.probabilidad}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.pondIntensidad.label}}</label>
 						{{form.pondIntensidad}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.pondExtension.label}}</label>
 						{{form.pondExtension}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.pondDuracion.label}}</label>
 						{{form.pondDuracion}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.pondReversibilidad.label}}</label>
 						{{form.pondReversibilidad}}
 					</div>
 				</div>
-				<div class="col-md-5 col-md-offset-2">
+				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<label for="">{{form.pondProbabilidad.label}}</label>
 						{{form.pondProbabilidad}}
@@ -115,21 +116,27 @@
 				</div>
 
 			</div>
-			<div class="col-md-5 col-md-offset-2">
-					<div class="form-group">
-						<button class="btn btn-primary" type="submit">Guardar</button>
+
+
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-md-offset-3">
+						<div class="form-group">
+							<button class="btn btn-primary" type="submit">Guardar</button>
+						</div>
+				</div>
+				{% if object %}
+				<div class="row justify-content-center">
+					<div class="col-md-6 col-md-offset-3">
+						<form id='eliminar_estudio' method="POST" action="{% url 'eliminar_estudio' object.pk %}">
+							{% csrf_token %}
+							<a href="{% url 'eliminar_estudio' object.pk %}">
+							<button  class="btn btn-danger" onClick="return deleteFunction();">Eliminar</button></a>
+						</form>
 					</div>
+				</div>
+				{% endif %}
 			</div>
 		</form>
-		<div class="col-md-5 col-md-offset-3">
-			{% if object %}
-			<form id='eliminar_estudio' method="POST" action="{% url 'eliminar_estudio' object.pk %}">
-				{% csrf_token %}
-				<a href="{% url 'eliminar_estudio' object.pk %}">
-				<button  class="btn btn-danger" onClick="deleteFunction()">Eliminar</button></a>
-			</form>
-			{% endif %}
-		</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
