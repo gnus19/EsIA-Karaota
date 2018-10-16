@@ -37,9 +37,18 @@
 				{% if estudios %}
 				{% for estudio in estudios %}
 				<tr>
-					<td>{{estudio.nombre}}</td>
-					<td>{{estudio.nombre}}</td>
-					<td>{{estudio.nombre}}</td>
+					{% if estudio.tipo == "FS" %}
+					<td><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
+					<td></td>
+					<td></td>
+					{% elif estudio.tipo == "BIO" %}
+					<td></td>
+					<td><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
+					{% else %}
+					<td></td>
+					<td></td>
+					<td><a href="{% url 'editar_estudio' estudio.id %}">{{estudio.nombre}}</a></td>
+					{% endif %}
 				</tr>
 				{% endfor %}
 				{% endif %}

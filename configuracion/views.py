@@ -8,11 +8,20 @@ from django.urls import reverse_lazy
 #Create your views here.
 def index(request):
 	estudios = Estudio.objects.all().order_by('id')
-	return render(request, 'configuracion/index.html', {'estudios':estudios})
+	num_fisico = 0
+	num_biologico = 0
+	num_socio_cultural = 0
+	for i in estudios:
+		if i.tipo == "FS":
+			num_fisico+=1
+		elif i.tipo == "BIO":
+			num_biologico+=1
+		else:
+			num_socio_cultural+=1
+	num_filas = max((num_fisico, num_biologico, num_socio_cultural))
+	print(num_filas)
 
-# # Create your views here.
-# def agregar_estudio(request):
-# 	return render(request, 'configuracion/agregar_estudio.html', {})
+	return render(request, 'configuracion/index.html', {'estudios':estudios, 'num_filas':num_filas})
 
 # Formulario para registrar un estudio/impacto
 class EstudioCreate(CreateView):
@@ -20,3 +29,14 @@ class EstudioCreate(CreateView):
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
 	success_url = reverse_lazy('index')
+
+class EstudioUpdate(UpdateView):
+	model = Estudio
+	form_class = EstudioForm
+	template_name = 'configuracion/agregar_estudio.html'
+	success_url = reverse_lazy('index')
+
+class EstudioDelete(DeleteView):
+	model = Estudio
+	success_url = reverse_lazy('index')
+
