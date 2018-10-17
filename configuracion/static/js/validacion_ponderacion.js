@@ -92,7 +92,7 @@ function validar(){
 	}
 	
 	function esta_entre(valor){
-		return valor >= 0 && valor <=100; 
+		return valor >= 0 && valor <=10; 
 	}
 	
 	function probabilidad_validado(){
@@ -103,7 +103,7 @@ function validar(){
 		}
 		
 		if(!esta_entre(Number(constantes.ponderacion.value))){
-			alert("El valor no está entre 0 y 100");
+			alert("El valor no está entre 0 y 10");
 			return false;				
 		}
 		
