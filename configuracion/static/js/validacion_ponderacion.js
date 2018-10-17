@@ -6,7 +6,8 @@ function validar(){
 	constantes.id_inputs = ["id_pondIntensidad","id_pondExtension","id_pondDuracion","id_pondReversibilidad","id_pondProbabilidad"];
 	constantes.inputs = [];
 	constantes.submit = document.getElementById("formulario");
-
+	constantes.ponderacion = document.getElementById("id_probabilidad");
+	
 	//Se obtienen los apuntadores a los objetos DOM (Los inputs) dado sus ID
 	for (var i = 0; i < constantes.id_inputs.length; i++) { 
 		constantes.inputs.push(document.getElementById(constantes.id_inputs[i]))
@@ -90,6 +91,32 @@ function validar(){
 		}
 	}
 	
+	function esta_entre(valor){
+		return valor >= 0 && valor <=100; 
+	}
+	
+	function probabilidad_validado(){
+		
+		if(noEsNumero(constantes.ponderacion.value)){
+			alert("El valor ingresado no es un numero.");
+			return false;			
+		}
+		
+		if(!esta_entre(Number(constantes.ponderacion.value))){
+			alert("El valor no está entre 0 y 100");
+			return false;				
+		}
+		
+		return true;
+	};
+	
+	//Se agrega la validacion que sea un numero
+	constantes.ponderacion.onchange = function(){
+
+		if(!probabilidad_validado()){
+			this.value = 0;
+		}
+	}
 };
 
 //Al cargar la pagina se activa la funcionalidad de validacion
