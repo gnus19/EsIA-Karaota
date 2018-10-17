@@ -34,16 +34,16 @@
 	<br><br>
 	<div class="container">
 		<div class="row justify-content-center">
+			{% if object %}
+			<h1> Datos del Estudio </h1>
+			{% else %}
 			<h1> Agregar un Estudio </h1>
+			{% endif %}
 			<br>
 		</div>
 		<form method="post" id="formulario">
 		<br>
 			{% csrf_token %}
-
-<!-- 			{% for i in view.grado_pertubacion %}
-<label for="">{{i}}</label>
-{% endfor %} -->
 			
 			<div class="row">
 
@@ -82,16 +82,24 @@
 				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<h6>
-							<label for="">{{form.intensidad.label}}</label>
-								{{form.intensidad}}
+							<label for="">{{form.grado_perturbacion_intensidad.label}}</label>
+								{{form.grado_perturbacion_intensidad}}
 						</h6>
 					</div>
 				</div>
 				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<h6>
-							<label for="">{{form.extension.label}}</label>
-							{{form.extension}}
+							<label for="">{{form.valor_sociocultural_intensidad.label}}</label>
+								{{form.valor_sociocultural_intensidad}}
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">{{form.clasificacion_extension.label}}</label>
+							{{form.clasificacion_extension}}
 							</h6>
 						</h6>
 					</div>
@@ -99,16 +107,16 @@
 				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<h6>
-							<label for="">{{form.duracion.label}}</label>
-							{{form.duracion}}
+							<label for="">{{form.criterio_duracion.label}}</label>
+							{{form.criterio_duracion}}
 						</h6>
 					</div>
 				</div>
 				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<h6>
-							<label for="">{{form.reversibilidad.label}}</label>
-								{{form.reversibilidad}}
+							<label for="">{{form.clasificacion_reversibilidad.label}}</label>
+								{{form.clasificacion_reversibilidad}}
 						</h6>
 					</div>
 				</div>
@@ -169,10 +177,24 @@
 						</h6>
 					</div>
 				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Importancia del Estudio</label>
+								<input class="string form-control" type="text" value="{{object.importancia_estudio}}" readonly="" />
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Valor del Impacto</label>
+								<input class="string form-control" type="text" value="{{object.valor_estudio}}" readonly="" />
+						</h6>
+					</div>
+				</div>
 				{% endif %}
-
 			</div>
-
 
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-md-offset-2" align="right">

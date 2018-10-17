@@ -25,11 +25,11 @@ def index(request):
 			lista[i].append(estudios_fisicos[i])
 		else:
 			lista[i].append(None)
-
+ 
 	for i in range(0, maximo):
 		if i < cant_biologicos:
 			lista[i].append(estudios_biologicos[i])
-		else:
+		else:   
 			lista[i].append(None)
 
 	print(lista)
@@ -47,39 +47,26 @@ class EstudioCreate(CreateView):
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
 
-	def grado_pertubacion(self):
-		return GRADO_PERTUBACION
-
-	def valor_sa(self):
-		return VALOR_SA
-
-	def ext_clasificacion(self):
-		return EXT_CLASIFICACION
-
-	def dur_criterios(self):
-		return DUR_CRITERIOS
-
-	def rev_clasificacion(self):
-		return REV_CLASIFICACION
-
 	def get_success_url(self):
-		return reverse('calcular_via', args=(self.object.id,))
+		if self.request.POST.get('editar'):
+			return reverse('calcular_datos', args=(self.object.id,))
 
 class EstudioUpdate(UpdateView):
 	model = Estudio
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
-	success_url = reverse_lazy('index')
 
 	def get_success_url(self):
 		if self.request.POST.get('editar'):
-			return reverse('calcular_via', args=(self.object.id,))
+			return reverse('calcular_datos', args=(self.object.id,))
 		elif self.request.POST.get('eliminar'):
 			return reverse('eliminar_estudio', args=(self.object.id,))
 
-def calcular_via(request, pk):
+def calcular_datos(request, pk):
 	estudio = Estudio.objects.get(id=pk)
-	via = estudio.intensidad*estudio.pondIntensidad + estudio.extension*estudio.pondExtension + estudio.duracion*estudio.pondDuracion + estudio.reversibilidad*estudio.pondReversibilidad + estudio.probabilidad*estudio.pondProbabilidad
+	via = estudio.intensidad*(estudio.pondIntensidad/100) + estudio.extension*(estudio.pondExtension/100) + estudio.duracion*(estudio.pondDuracion/100) + estudio.reversibilidad*(estudio.pondReversibilidad/100) + estudio.probabilidad*(estudio.pondProbabilidad/100)
+
+	print(estudio.grado_perturbacion_intensidad)
 	estudio.via = via
 	estudio.save()
 
