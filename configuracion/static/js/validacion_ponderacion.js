@@ -39,8 +39,8 @@ function validar(){
 			}
 			sumatoria+= Number(valor);
 			if(sumatoria > constantes.limite_pond){
-				console.log(sumatoria)
-				alert("El valor ingresado supera el limite [100%], dada la suma de las ponderaciones")
+
+				alert("El valor ingresado supera el limite [100%], dada la suma de las ponderaciones: "+sumatoria.toString())
 				return false;
 			}
 		}		
