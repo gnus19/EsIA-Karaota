@@ -68,10 +68,11 @@ function validar(){
 			sumatoria+= Number(valor);
 		}		
 	
-		alert("La ponderacion tiene un valor distinto a 100. Actualmente es :" + sumatoria.toString());
+
 		if(sumatoria == constantes.limite_pond){
 			return true;
 		}
+		alert("La ponderacion tiene un valor distinto a 100. Actualmente es :" + sumatoria.toString());
 		return false;
 	};
 	
