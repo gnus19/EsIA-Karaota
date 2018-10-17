@@ -6,12 +6,12 @@ function validar(){
 	constantes.id_inputs = ["id_pondIntensidad","id_pondExtension","id_pondDuracion","id_pondReversibilidad","id_pondProbabilidad"];
 	constantes.inputs = [];
 	constantes.submit = document.getElementById("formulario");
-	console.log("Constantes bien")
+
 	//Se obtienen los apuntadores a los objetos DOM (Los inputs) dado sus ID
 	for (var i = 0; i < constantes.id_inputs.length; i++) { 
 		constantes.inputs.push(document.getElementById(constantes.id_inputs[i]))
 	}
-	console.log(constantes)
+
 	//Funcion que revisa si el input esta vacio
 	function esVacio(input){
 		return input.value.length == 0;
@@ -27,7 +27,6 @@ function validar(){
 		var sumatoria = 0;
 		var valor;
 		for (var i = 0; i < constantes.id_inputs.length; i++) { 
-			console.log(constantes.inputs.value)
 			if(esVacio(constantes.inputs[i])){
 				continue;
 			}
@@ -84,7 +83,7 @@ function validar(){
 	//Se agrega a cada uno de los campos la validacion al cambiar el contenido del input
 	for (var i = 0; i < constantes.id_inputs.length; i++) { 
 		constantes.inputs[i].onchange = function(){
-			console.log("LO CAMBIE")
+
 			if(!sumatoria_debajo()){
 				this.value = 0;
 			}
