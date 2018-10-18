@@ -14,12 +14,21 @@
 	{% endif %}
 
 		<div class="row justify-content-center">
-			{% if object %}
-			<h1> Datos del Estudio </h1>
-			{% else %}
-			<h1> Agregar un Estudio </h1>
-			{% endif %}
-			<br>
+			<div class="col-1">			
+				<div class="col-md-6 col-md-offset-2" align="center">
+					<div class="form-group">
+						<a class="btn menu" style="color: gray" href="{% url 'index' %}">Volver</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-11"><div class="row justify-content-center">
+				{% if object %}
+				<h1> Datos del Estudio </h1>
+				{% else %}
+				<h1> Agregar un Estudio </h1>
+				{% endif %}
+			<br></div>
+			</div>	
 		</div>
 		<form method="post" id="formulario">
 		<br>
@@ -176,16 +185,20 @@
 				{% endif %}
 			</div>
 
+
 			<div class="row justify-content-center">
-				<div class="col-md-6 col-md-offset-2" align="right">
+
+
+
+				<div class="col-md-6 col-md-offset-2" align="center">
 					<div class="form-group">
-							<input id="editar" name="editar" class="btn btn-primary" value="Guardar" type="submit">
+							<input id="editar" name="editar" class="btn" onclick = "return confirm('¿Está seguro de los datos introducidos?')" style="background: #4f6228; color: white" value="Guardar" type="submit">
 					</div>
 				</div>
 				{% if object %}
-				<div class="col-md-6 col-md-offset-2" align="left">
+				<div class="col-md-6 col-md-offset-2" align="center">
 					<div class="form-group">
-						<a class="btn btn-danger" onclick = "return confirm('¿Está seguro de eliminar este estudio?')" href="{% url 'eliminar_estudio' object.id %}">Eliminar</a>
+						<a class="btn" style="background: #4f6228; color: white" onclick = "return confirm('¿Está seguro de eliminar este estudio?')" href="{% url 'eliminar_estudio' object.id %}">Eliminar</a>
 					</div>
 				{% endif %}
 				</div>

@@ -5,8 +5,8 @@
 			<td colspan="3">Elementos Ambientales</td>
 		</tr>
 		<tr class="cabecera">
-			<td>Medios Fisico</td>
-			<td>Medios Biologicos</td>
+			<td>Medios Físico</td>
+			<td>Medios Biológicos</td>
 			<td>Medios Socio-Cultural</td>
 		</tr>
 		{% if lista %}
@@ -23,5 +23,5 @@
 		{% endfor %}
 		{% endif %}
 	</table>
-	<center><a class="btn btn-primary" href="{% url 'agregar_estudio' %}">Agregar Estudio</a></center>
+	<center><a class="btn" style="background: #4f6228; color: white" href="{% url 'agregar_estudio' %}">Agregar Estudio</a></center>
 {%endblock%}
