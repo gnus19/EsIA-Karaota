@@ -47,7 +47,7 @@ MEDIOS = (
 	)
 
 class Estudio(models.Model):
-	nombre = models.CharField(max_length=50, default="", unique=True, error_messages={'unique':'Ya existe un Estudio con el nombre colocado', 'max_length':'El nombre no puede pasar de mas de 50 caracteres'})
+	nombre = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe un Estudio con el nombre colocado', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
 	tipo = models.CharField(choices=MEDIOS, max_length=50, default="")
 	valoracion_relevancia = models.CharField(choices=NIVEL_RELEVANCIA, max_length=6, default="")
 	tipo_relevancia = models.CharField(choices=TIPO_RELEVANCIA, max_length=50, default="")
