@@ -92,10 +92,6 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
 			messages.success(self.request, "Datos del estudio modificados exitosamente", extra_tags='alert')
 		return super(ModelFormMixin, self).form_valid(form)
 
-	def post(self, request, **kwargs):
-		context = super(EstudioUpdate, self).post(request, **kwargs)
-		return context
-
 	# def get_context_data(self, **kwargs):
 	# 	context = super(EstudioUpdate, self).get_context_data(**kwargs)
 	# 	return context
@@ -103,8 +99,6 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
 	def get_success_url(self):
 		if self.request.POST.get('editar'):
 			return reverse('index')
-		elif self.request.POST.get('eliminar'):
-			return reverse('eliminar_estudio', args=(self.object.id,))
 
 # # Calculo de la Valoracion de la Intensidad
 def _calcular_intensidad(estudio):
