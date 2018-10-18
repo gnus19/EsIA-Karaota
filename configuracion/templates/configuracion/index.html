@@ -28,15 +28,14 @@
 	</style>
 </head>
 <body>
-	{{form.messages}}
-	{% for message in messages %}
-	  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	      <span aria-hidden="true" style="font-weight: bold;">&times;</span>
-	    </button>
-	    {{ message }}
-	  </div>
-	{% endfor %}
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <i class="fas fa-check-circle"><strong>{{ message }}</strong></i>
+  </div>
+{% endfor %}
 	<br>
 	<div class="container">
 		<div class="row justify-content-center">
