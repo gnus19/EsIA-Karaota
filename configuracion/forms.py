@@ -58,3 +58,5 @@ class EstudioForm(forms.ModelForm):
 			'criterio_duracion': forms.Select(attrs={'class':'form-control', 'required':''}),
 			'clasificacion_reversibilidad': forms.Select(attrs={'class':'form-control', 'required':''}),
 			}
+
+# aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
