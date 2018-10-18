@@ -35,7 +35,6 @@ def index(request):
 		else:   
 			lista[i].append(None)
 
-	print(lista)
 	for i in range(0, maximo):
 		if i < cant_socioculturales:
 			lista[i].append(estudios_socioculturales[i])
@@ -45,12 +44,12 @@ def index(request):
 	return render(request, 'configuracion/index.html', {'lista':lista})
 
 # Formulario para registrar un estudio/impacto
-class EstudioCreate(CreateView):
+class EstudioCreate(CreateView, SuccessMessageMixin):
 	model = Estudio
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
 	success_url = reverse_lazy('index')
-	success_messages = "Estudio creado exitosamente"
+	success_message = "Estudio creado exitosamente"
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
@@ -68,15 +67,12 @@ class EstudioCreate(CreateView):
 		self.object.save()
 		return super(ModelFormMixin, self).form_valid(form)
 
-	# def get_success_url(self):
-	# 	if self.request.POST.get('editar'):
-	# 		return reverse('calcular_datos', args=(self.object.id,))
-
 # Actualizacion de los datos del formulario 
-class EstudioUpdate(UpdateView):
+class EstudioUpdate(UpdateView, SuccessMessageMixin):
 	model = Estudio
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
+	success_message = "Datos del Estudio actualizados correctamente"
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
@@ -188,12 +184,12 @@ def _calcular_importancia(via):
 		valor_estudio = 7
 	elif 8 <= via:
 		importancia_estudio = 'Muy Alta'
-		valor_estudio = 100
+		valor_estudio = 10
 
 	return importancia_estudio, valor_estudio
 
 # Funcion que elimina un estudio
 def eliminar_estudio(request, pk):
 	estudio = Estudio.objects.get(id=pk).delete()
-	messages.success(request, "Estudio eliminado exitosamente")
+	messages.success(request, "Estudio eliminado exitosamente", extra_tags='alert')
 	return HttpResponseRedirect(reverse('index'))
