@@ -75,20 +75,23 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
 	success_message = "Datos del Estudio actualizados correctamente"
 
 	def form_valid(self, form):
-		self.object = form.save(commit=False)
-		val_intensidad = _calcular_intensidad(self.object)
-		val_duracion = _calcular_duracion(self.object)
-		val_reversibilidad = _calcular_reversibilidad(self.object)
-		val_extension = _calcular_extension(self.object)
-		val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad, val_extension)
-		self.object.intensidad = val_intensidad
-		self.object.duracion = val_duracion
-		self.object.reversibilidad = val_reversibilidad
-		self.object.extension = val_extension
-		self.object.via = val_via
-		self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
-		self.object.save()
-		messages.success(self.request, "Datos del estudio modificados exitosamente", extra_tags='alert')
+		if self.request.POST.get('editar'):
+			self.object = form.save(commit=False)
+			val_intensidad = _calcular_intensidad(self.object)
+			val_duracion = _calcular_duracion(self.object)
+			val_reversibilidad = _calcular_reversibilidad(self.object)
+			val_extension = _calcular_extension(self.object)
+			val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad, val_extension)
+			self.object.intensidad = val_intensidad
+			self.object.duracion = val_duracion
+			self.object.reversibilidad = val_reversibilidad
+			self.object.extension = val_extension
+			self.object.via = val_via
+			self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
+			self.object.save()
+			messages.success(self.request, "Datos del estudio modificados exitosamente", extra_tags='alert')
+		elif self.request.POST.get('eliminar'):
+			reverse('eliminar_estudio', args=(self.object.id,))
 		return super(ModelFormMixin, self).form_valid(form)
 
 	def get_success_url(self):
