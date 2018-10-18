@@ -105,4 +105,3 @@ venv.bak/
 
 # Agregados
 *.pyc
-migrations
