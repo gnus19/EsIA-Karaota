@@ -1,62 +1,28 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>EsIA</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'configuracion/base.html' %}
+{%block contenido%}
+	<table class="table">
+		<tr class="cabecera">
+			<td colspan="3">Elementos Ambientales</td>
+		</tr>
+		<tr class="cabecera">
+			<td>Medios Fisico</td>
+			<td>Medios Biologicos</td>
+			<td>Medios Socio-Cultural</td>
+		</tr>
+		{% if lista %}
+		{% for estudio in lista %}
+		<tr class=""></td>
+			{% for x in estudio %}
+			{% if x%}
+			<td> <a href="{% url 'editar_estudio' x.id %}">{{x.nombre}}</a> </td>
+			{% else %}
+			<td> </td>
+			{% endif %}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+		{% endif %}
+	</table>
+	<a class="btn btn-primary" href="{% url 'agregar_estudio' %}">Agregar Estudio</a>
 
-	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-	<style>
-		.cabecera{
-			background-color: #4f6228;
-			color: #fff;
-		}		
-		table, tr, td {
-			font-weight: bold;
-			border: 2px solid #000;
-			text-align: center;
-			width: 33%;
-		}
-		.columna {
-			background-color: #e6fad2;
-		}
-	</style>
-</head>
-<body>
-	<br>
-	<div class="container">
-		<div class="row justify-content-center">
-			<table class="table">
-				<tr class="cabecera">
-					<td colspan="3">Elementos Ambientales</td>
-				</tr>
-				<tr class="cabecera">
-					<td>Medios Fisico</td>
-					<td>Medios Biologicos</td>
-					<td>Medios Socio-Cultural</td>
-				</tr>
-				{% if lista %}
-				{% for estudio in lista %}
-				<tr class</td>
-					{% for x in estudio %}
-					{% if x%}
-					<td> <a href="{% url 'editar_estudio' x.id %}">{{x.nombre}}</a> </td>
-					{% else %}
-					<td> </td>
-					{% endif %}
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				{% endif %}
-			</table>
-			<a class="btn btn-primary" href="{% url 'agregar_estudio' %}">Agregar Estudio</a>
-		</div>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</body>
-</html>
+{%endblock%}
