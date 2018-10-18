@@ -3,7 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from configuracion.forms import *
 from configuracion.models import *
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic.edit import ModelFormMixin
 from django.urls import reverse_lazy, reverse
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 # Index de los impactos y listado de los mismos
 def index(request):
@@ -46,10 +49,28 @@ class EstudioCreate(CreateView):
 	model = Estudio
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
+	success_url = reverse_lazy('index')
+	success_messages = "Estudio creado exitosamente"
 
-	def get_success_url(self):
-		if self.request.POST.get('editar'):
-			return reverse('calcular_datos', args=(self.object.id,))
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		val_intensidad = _calcular_intensidad(self.object)
+		val_duracion = _calcular_duracion(self.object)
+		val_reversibilidad = _calcular_reversibilidad(self.object)
+		val_extension = _calcular_extension(self.object)
+		val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad, val_extension)
+		self.object.intensidad = val_intensidad
+		self.object.duracion = val_duracion
+		self.object.reversibilidad = val_reversibilidad
+		self.object.extension = val_extension
+		self.object.via = val_via
+		self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
+		self.object.save()
+		return super(ModelFormMixin, self).form_valid(form)
+
+	# def get_success_url(self):
+	# 	if self.request.POST.get('editar'):
+	# 		return reverse('calcular_datos', args=(self.object.id,))
 
 # Actualizacion de los datos del formulario 
 class EstudioUpdate(UpdateView):
@@ -57,17 +78,31 @@ class EstudioUpdate(UpdateView):
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
 
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		val_intensidad = _calcular_intensidad(self.object)
+		val_duracion = _calcular_duracion(self.object)
+		val_reversibilidad = _calcular_reversibilidad(self.object)
+		val_extension = _calcular_extension(self.object)
+		val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad, val_extension)
+		self.object.intensidad = val_intensidad
+		self.object.duracion = val_duracion
+		self.object.reversibilidad = val_reversibilidad
+		self.object.extension = val_extension
+		self.object.via = val_via
+		self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
+		self.object.save()
+		return super(ModelFormMixin, self).form_valid(form)
+
 	def get_success_url(self):
 		if self.request.POST.get('editar'):
-			return reverse('calcular_datos', args=(self.object.id,))
+			return reverse('index')
 		elif self.request.POST.get('eliminar'):
 			return reverse('eliminar_estudio', args=(self.object.id,))
 
-# Funcion que calcula todos lo valores y VIA
-def calcular_datos(request, pk):
-	estudio = Estudio.objects.get(id=pk)
-
-	# Calculo de la Valoracion de la Intensidad
+# # Calculo de la Valoracion de la Intensidad
+def _calcular_intensidad(estudio):
+	
 	if estudio.grado_perturbacion_intensidad == 'F':
 		if estudio.valor_sociocultural_intensidad == 'MA':
 			valor_intensidad = 10
@@ -90,9 +125,11 @@ def calcular_datos(request, pk):
 		else:
 			valor_intensidad = 5
 
-	estudio.intensidad = valor_intensidad
+	return valor_intensidad
 
-	# Claculo de la Valoracion de la 
+# Claculo de la Valoracion de la Extension
+def _calcular_extension(estudio):
+	
 	if estudio.clasificacion_extension == 'GE':
 		valor_extension = 10
 	elif estudio.clasificacion_extension == 'EX':
@@ -102,9 +139,11 @@ def calcular_datos(request, pk):
 	else:
 		valor_extension = 2
 
-	estudio.extension = valor_extension
+	return valor_extension
 
-	# Calculo de la Valoracion de la Duracion
+# Calculo de la Valoracion de la Duracion
+def _calcular_duracion(estudio):
+	
 	if estudio.criterio_duracion == 'M2':
 		valor_duracion = 2
 	elif estudio.criterio_duracion == 'M2-5':
@@ -114,9 +153,11 @@ def calcular_datos(request, pk):
 	else:
 		valor_duracion = 10
 
-	estudio.duracion = valor_duracion
+	return valor_duracion
 
-	# Calculo de la Reversibilidad
+# Calculo de la Reversibilidad
+def _calcular_reversibilidad(estudio):
+	
 	if estudio.clasificacion_reversibilidad == 'IR':
 		valor_reversibilidad = 10
 	elif estudio.clasificacion_reversibilidad == 'TR':
@@ -126,35 +167,33 @@ def calcular_datos(request, pk):
 	else:
 		valor_reversibilidad = 2
 
-	estudio.reversibilidad = valor_reversibilidad
+	return valor_reversibilidad
 
-	# Calculo del VIA
-	via = valor_intensidad*(estudio.pondIntensidad/100) + valor_extension*(estudio.pondExtension/100) + valor_duracion*(estudio.pondDuracion/100) + valor_reversibilidad*(estudio.pondReversibilidad/100) + estudio.probabilidad*(estudio.pondProbabilidad/100)
+# Calculo del VIA
+def _calcular_via(estudio, valor_intensidad, valor_duracion, valor_reversibilidad, valor_extension):
 
-	estudio.via = via
+	return valor_intensidad*(estudio.pondIntensidad/100) + valor_extension*(estudio.pondExtension/100) + valor_duracion*(estudio.pondDuracion/100) + valor_reversibilidad*(estudio.pondReversibilidad/100) + estudio.probabilidad*(estudio.pondProbabilidad/100)
 
-	# Calculo de la importancia y valor de impacto del estudio
+# Calculo de la importancia y valor de impacto del estudio
+def _calcular_importancia(via):
+
 	if 0 <= via <= 2.9:
-		estudio.importancia_estudio = 'Baja'
-		estudio.valor_estudio = 2
+		importancia_estudio = 'Baja'
+		valor_estudio = 2
 	elif 3 <= via <= 5.9:
-		estudio.importancia_estudio = 'Media'
-		estudio.valor_estudio = 5
+		importancia_estudio = 'Media'
+		valor_estudio = 5
 	elif 6 <= via <= 7.9:
-		estudio.importancia_estudio = 'Alta'
-		estudio.valor_estudio = 7
+		importancia_estudio = 'Alta'
+		valor_estudio = 7
 	elif 8 <= via:
-		estudio.importancia_estudio = 'Muy Alta'
-		estudio.valor_estudio = 10
+		importancia_estudio = 'Muy Alta'
+		valor_estudio = 100
 
-	estudio.save()
-
-	return HttpResponseRedirect(reverse('index'))
+	return importancia_estudio, valor_estudio
 
 # Funcion que elimina un estudio
 def eliminar_estudio(request, pk):
 	estudio = Estudio.objects.get(id=pk).delete()
+	messages.success(request, "Estudio eliminado exitosamente")
 	return HttpResponseRedirect(reverse('index'))
-
-
-
