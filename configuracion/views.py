@@ -49,7 +49,6 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
 	form_class = EstudioForm
 	template_name = 'configuracion/agregar_estudio.html'
 	success_url = reverse_lazy('index')
-	success_message = "Estudio creado exitosamente"
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
@@ -65,6 +64,7 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
 		self.object.via = val_via
 		self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
 		self.object.save()
+		messages.success(self.request, "Estudio agregado exitosamente", extra_tags='alert')
 		return super(ModelFormMixin, self).form_valid(form)
 
 # Actualizacion de los datos del formulario 
@@ -88,6 +88,7 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
 		self.object.via = val_via
 		self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
 		self.object.save()
+		messages.success(self.request, "Datos del estudio modificados exitosamente", extra_tags='alert')
 		return super(ModelFormMixin, self).form_valid(form)
 
 	def get_success_url(self):
