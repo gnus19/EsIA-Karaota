@@ -14,7 +14,7 @@
 		<tr class=""></td>
 			{% for x in estudio %}
 			{% if x%}
-			<td> <a class="{{x.nombre}}" href="{% url 'editar_estudio' x.id %}">{{x.nombre}}</a> </td>
+			<td> <a name="{{x.id}}"href="{% url 'editar_estudio' x.id %}">{{x.nombre}}</a> </td>
 			{% else %}
 			<td> </td>
 			{% endif %}
