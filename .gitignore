@@ -106,3 +106,4 @@ venv.bak/
 # Agregados
 *.pyc
 migrations
+geckodriver
