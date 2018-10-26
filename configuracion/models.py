@@ -70,4 +70,28 @@ class Estudio(models.Model):
 	importancia_estudio =  models.CharField(max_length=50, default="")
 	valor_estudio = models.IntegerField(default=0)
 
+class Intensidad(models.Model):
+	tipo = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe una clasificacion con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	grado_perturbacion = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe un grado de perturbacion con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	valor = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+	
+class Extension(models.Model):
+	tipo = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe una clasificacion con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	clasificacion = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe una clasificacion con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	valor = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+	
+	
+class Clasificacion(models.Model):
+	tipo = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe una clasificacion con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	valor = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)])	
+	
+class Reversibilidad(models.Model):
+	tipo = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe una tipo con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	valor = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)])	
+		
+class Ponderacion(models.Model):
+	tipo = models.CharField(max_length=40, default="", unique=True, error_messages={'unique':'Ya existe un tipo con ese nombre', 'max_length':'El nombre no puede pasar de mas de 40 caracteres'})
+	valor = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)])		
+	
+	
 	
