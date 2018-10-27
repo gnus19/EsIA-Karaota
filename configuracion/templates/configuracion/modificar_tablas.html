@@ -1,0 +1,223 @@
+{% extends 'configuracion/base.html' %}
+{%block contenido%}
+<div class="row justify-content-center">
+	<div class="col-1">			
+		<div class="col-md-6 col-md-offset-2" align="center">
+			<div class="form-group">
+				<a class="btn menu" style="color: gray" href="{% url 'tablas' %}">Volver</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-11">
+		<div class="row justify-content-center">
+			<h1> Modificar Valores </h1><br>
+		</div>
+	</div>	
+</div>
+<div class="row justify-content-center">
+	<div class="col-md-6 col-sm-12">
+		<table class="indicador">
+			<caption>Valoración de la intensidad</caption>
+			<tr class="cabecera">
+				<th>Grado de perturbancia</th>
+				<th colspan="4">Valor socio-cultural</th>
+			</tr>
+			<tr class="cabecera">
+				<th>
+					<th>Muy alto</th>
+					<th>Alto</th>
+					<th>Medio</th>
+					<th>Bajo</th>
+				</th>
+			</tr>
+			<tr>
+				<td>Fuerte</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Medio</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Suave</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-md-6 col-sm-12">
+		<table class="indicador">
+			<caption>Valoración de la extensión</caption>
+			<tr class="cabecera">
+				<th>Clasificacion</th>
+				<th colspan="2">Extension</th>
+			</tr>
+			<tr class="cabecera">
+				<th>
+					<th>%</th>
+					<th>Valor</th>
+				</th>
+			</tr>
+			<tr>
+				<td>Generalizada</td>
+				<td>>75%</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Extensiva</td>
+				<td>35-74%</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Local</td>
+				<td>10-34%</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Puntual</td>
+				<td><10%</td>
+				<td><input type="text" name=""></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row justify-content-center">
+	<div class="col-md-6 col-sm-12">
+		<table class="indicador">
+			<caption>Valoración de la duración</caption>
+			<tr class="cabecera">
+				<th>Criterios</th>
+				<th>Valor</th>
+			</tr>
+			<tr>
+				<td>Menos de 2 años</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>2 a 5 años</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>5 a 10 años</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Más de 10 años</td>
+				<td><input type="text" name=""></td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-md-6 col-sm-12">
+		<table class="indicador">
+			<caption>Valoración de la reversibilidad</caption>
+			<tr class="cabecera">
+				<th>Clasificación</th>
+				<th>Valor</th>
+			</tr>
+			<tr>
+				<td>Irreversible</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Requiere tratamiento</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Medianamente reversible</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Reversible</td>
+				<td><input type="text" name=""></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row justify-content-center">
+	<div class="col-md-6 col-sm-12">
+		<table class="indicador">
+			<caption>Ponderación de criterios de evaluación</caption>
+			<tr class="cabecera">
+				<th>Clasificación</th>
+				<th>Porcentaje</th>
+			</tr>
+			<tr>
+				<td>Intensidad</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Extensión</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Duración</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Reversibilidad</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Probabilidad</td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td style="text-align: right;">Total:</td>
+				<td>100</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-md-6 col-sm-12">
+		<table class="indicador">
+			<caption>Criterios de clasificación de la importancia del efecto</caption>
+			<tr class="cabecera">
+				<th>Importancia</th>
+				<th colspan="2">Rango</th>
+				<th>Valor del impacto</th>
+			</tr>
+			<tr class="cabecera">
+				<th>
+					<th>Min</th>
+					<th>Max</th>
+				</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>Muy alta</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Alta</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Media</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td>Baja</td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+				<td><input type="text" name=""></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row justify-content-center mt-3">
+	<a class="btn" style="background: #4f6228; color: white" href="#">Realizar cambios</a>
+</div>
+{%endblock%}

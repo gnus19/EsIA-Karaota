@@ -8,6 +8,12 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
+def modificar_tablas(request):
+	return render(request, 'configuracion/modificar_tablas.html', {})
+
+def tablas(request):
+	return render(request, 'configuracion/tablas.html', {})
+
 # Index de los impactos y listado de los mismos
 def index(request):
 	estudios_fisicos = Estudio.objects.filter(tipo="FS")

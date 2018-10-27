@@ -4,6 +4,15 @@ html, body{
 	font-family: 'Lato', sans-serif;
 }
 
+caption{
+	caption-side: top;
+	text-align: center;
+}
+
+input{
+	width: 100%;
+}
+
 .total_height{
 	height:100%;
 }
@@ -50,4 +59,11 @@ html, body{
 
 .alert2 {
 	background-color: #ee8484
+}
+
+.indicador{
+	font-weight: bold;
+	border: 2px solid #000;
+	text-align: center;
+	width: 100%;
 }
