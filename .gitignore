@@ -105,7 +105,7 @@ venv.bak/
 
 # Agregados
 *.pyc
-migrations/*
+configuracion/migrations/*
 configuracion/geckodriver
 geckodriver
 chromedriver
