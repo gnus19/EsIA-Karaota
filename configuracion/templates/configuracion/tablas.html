@@ -16,26 +16,46 @@
 					<th>Bajo</th>
 				</th>
 			</tr>
-			<tr>
+			<tr>	
 				<td>Fuerte</td>
-				<td>10</td>
-				<td>7</td>
-				<td>5</td>
-				<td>2</td>
+				{% for i in intensidad_fuerte %}
+				{% if i.valor_sociocultural == 'MA' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'A' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'M' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'B' %}
+				<td>{{i.valor}}</td>
+				{% endif %}
+				{% endfor %}
 			</tr>
-			<tr>
 				<td>Medio</td>
-				<td>7</td>
-				<td>7</td>
-				<td>5</td>
-				<td>2</td>
+				{% for i in intensidad_medio %}
+				{% if i.valor_sociocultural == 'MA' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'A' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'M' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'B' %}
+				<td>{{i.valor}}</td>
+				{% endif %}
+				{% endfor %}
 			</tr>
 			<tr>
 				<td>Suave</td>
-				<td>5</td>
-				<td>5</td>
-				<td>2</td>
-				<td>2</td>
+				{% for i in intensidad_suave %}
+				{% if i.valor_sociocultural == 'MA' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'A' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'M' %}
+				<td>{{i.valor}}</td>
+				{% elif i.valor_sociocultural == 'B' %}
+				<td>{{i.valor}}</td>
+				{% endif %}
+				{% endfor %}
 			</tr>
 		</table>
 	</div>
@@ -53,24 +73,31 @@
 				</th>
 			</tr>
 			<tr>
+				{% for i in extension %}
 				<td>Generalizada</td>
 				<td>>75%</td>
-				<td>10</td>
+				{% if i.clasificacion == 'GE' %}
+				<td>{{i.valor}}</td>
 			</tr>
 			<tr>
 				<td>Extensiva</td>
 				<td>35-74%</td>
-				<td>7</td>
+				{% elif i.clasificacion == 'EX' %}
+				<td>{{i.valor}}</td>
 			</tr>
 			<tr>
 				<td>Local</td>
 				<td>10-34%</td>
-				<td>5</td>
+				{% elif i.clasificacion == 'LO' %}
+				<td>{{i.valor}}</td>
 			</tr>
 			<tr>
 				<td>Puntual</td>
 				<td><10%</td>
-				<td>2</td>
+				{% elif i.clasificacion == 'PU' %}
+				<td>{{i.valor}}</td>
+				{% endif %}
+				{% endfor %}
 			</tr>
 		</table>
 	</div>

@@ -1,4 +1,5 @@
 from django.db import models
+from configuracion.migrations import *
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -59,9 +60,13 @@ MEDIOS = (
 	)
 
 class Intensidad(models.Model):
+
 	valor_sociocultural = models.CharField(choices=VALOR_SA, max_length=40, default="", error_messages={'max_length':'El nombre no puede pasar de mas de 40 caracteres',})
 	grado_perturbacion = models.CharField(choices=GRADO_PERTUBACION, max_length=40, default="", error_messages={'max_length':'El nombre no puede pasar de mas de 40 caracteres',})
 	valor = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+
+	class Meta:
+		unique_together = (('valor_sociocultural', 'grado_perturbacion'), )
 	
 class Extension(models.Model):
 	clasificacion = models.CharField(choices=EXT_CLASIFICACION, max_length=40, unique=True, default="", error_messages={'max_length':'El nombre no puede pasar de mas de 40 caracteres',})
@@ -101,4 +106,5 @@ class Estudio(models.Model):
 	pondReversibilidad = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	pondProbabilidad = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(100)])
 	via = models.FloatField(default=0.0)
-	importancia_estudio =  models.ForeignKey(Importancia, on_delete=models.PROTECT)
+	importancia_estudio =  models.ForeignKey(Importancia, default='', on_delete=models.PROTECT)
+
