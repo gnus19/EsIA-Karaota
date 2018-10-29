@@ -59,4 +59,119 @@ class EstudioForm(forms.ModelForm):
 			'clasificacion_reversibilidad': forms.Select(attrs={'class':'form-control', 'required':''}),
 			}
 
+class IntesidadForm(forms.ModelForm):
+
+	class Meta:
+
+		model = Intensidad
+		fields = [
+			'tipo',
+			'grado_perturbacion',
+			'valor',
+
+		]
+
+		labels = {
+			'tipo':'Tipo de Intensidad',
+			'grado_perturbacion':'Grado de Perturbación',
+			'valor': 'Valor',
+
+		}
+
+		widgets = {
+			'tipo':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'grado_perturbacion':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'valor':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+		}
+
+class ExtensionForm(forms.ModelForm):
+
+	class Meta:
+
+		model = Extension
+		fields = [
+			'tipo',
+			'clasificacion',
+			'valor',
+
+		]
+
+		labels = {
+			'tipo':'Tipo de Extensión',
+			'clasificacion':'Criterio de Duración',
+			'valor':'Valor',
+
+		}
+
+		widgets = {
+			'tipo':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'clasificacion':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'valor':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+
+		}
+
+class ClasificacionForm(forms.ModelForm):
+
+	class Meta:
+
+		model = Clasificacion
+		fields = [
+			'tipo',
+			'valor',
+
+		]
+
+		labels = {
+			'tipo':'Tipo de Clasificacion',
+			'valor':'Valor',
+		}
+
+		widgets = {
+			'tipo':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'valor':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+
+		}
+
+class ReversibilidadForm(forms.ModelForm):
+
+	class Meta:
+
+		model = Reversibilidad
+		fields = [
+			'tipo',
+			'valor',
+
+		]
+
+		labels = {
+			'tipo':'Tipo de Reversibilidad',
+			'valor':'Valor',
+		}
+
+		widgets = {
+			'tipo':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'valor':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+		}
+
+class PonderacionForm(forms.ModelForm):
+
+	class Meta:
+
+		model = Ponderacion
+		fields = [
+			'tipo',
+			'valor',
+
+		]
+
+		labels = {
+			'tipo':'Tipo de Ponderacion',
+			'valor':'Valor',
+		}
+
+		widgets = {
+			'tipo':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+			'valor':forms.TextInput(attrs={'class':'form-control', 'required':''}),
+
+		}
 # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

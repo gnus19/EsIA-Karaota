@@ -6,20 +6,39 @@ from selenium.webdriver.support.ui import Select
 import time
 
 class PruebaFormularioEstudio(LiveServerTestCase):
+    port = 8005
 
     def setUp(self):
-        # Es llamado al iniciar el browser
-        self.browser = webdriver.Firefox() #Pruebas de navegador con selenium
-        self.browser.maximize_window()
         self.client = Client() #Pruebas con testing tools de django
         super(PruebaFormularioEstudio, self).setUp()
 
-    def tearDown(self):
-        # Llama al tearDown al cerrar el browser
-        self.browser.quit()
-        super(PruebaFormularioEstudio, self).tearDown()
+    # def test_http_reponse_ok_tabla(self):
+    #     # Estatu Ok HTTP de la pagina de la tabla
+    #     response = self.client.get('/configuracion/index/')
+    #     self.assertEquals(response.status_code, 200)
+
+    # def test_templates_correctos_tabla(self):
+    #     # Carga exitosa de los Templates
+    #     response = self.client.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
+    #     self.assertTemplateUsed(response, 'configuracion/index.html')
+    #     self.assertTemplateUsed(response, 'configuracion/base.html')
+
+    # def test_http_reponse_ok_formulario(self):
+    #     # Estatu Ok HTTP del formulario
+    #     response = self.client.get('/configuracion/agregar_estudio/')
+    #     self.assertEquals(response.status_code, 200)
+
+    # def test_templates_correctos_formulario(self):
+    #     # Carga exitosa de los Templates
+    #     response = self.client.get('%s%s' % (self.live_server_url, '/configuracion/agregar_estudio/'))
+    #     self.assertTemplateUsed(response, 'configuracion/agregar_estudio.html')
+    #     self.assertTemplateUsed(response, 'configuracion/base.html')
 
     def test_llenar_formulario(self):
+        #Llenamos distintos formularios
+        self.client = None
+        self.browser = webdriver.Firefox() #Pruebas de navegador con selenium
+        self.browser.maximize_window()
         # LLenamos la tabla con datos
         self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
         time.sleep(4)
@@ -29,8 +48,13 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         time.sleep(3)
         self.browser.find_element_by_css_selector('.btn').click() # Hacemos click en  agregar nuevamente
         time.sleep(4)
+
         nombre_uno = "Impacto 1"
         self.browser.find_element_by_name('nombre').send_keys(nombre_uno) #agregamos el nombre
+        # form_step = self.browser.find_element_by_name('nombre')
+        # step = form_step.get_attribute("value")
+        # self.assertEqual(step, nombre_uno)
+
         time.sleep(2)
         self.browser.find_element_by_name('probabilidad').send_keys(8) #agregamos la probabilidad
         time.sleep(2)
@@ -253,3 +277,10 @@ class PruebaFormularioEstudio(LiveServerTestCase):
 
         self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
         time.sleep(10)
+
+    def tearDown(self):
+        # Llama al tearDown al cerrar el browser
+        self.browser.quit()
+        super(PruebaFormularioEstudio, self).tearDown()
+
+
