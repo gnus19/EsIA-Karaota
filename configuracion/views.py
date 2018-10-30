@@ -8,165 +8,6 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
-def modificar_tablas(request):
-	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
-	intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
-	intensidad_suave = Intensidad.objects.all().filter(grado_perturbacion='S')
-	extension = Extension.objects.all().order_by('id')
-	duracion = Duracion.objects.all().order_by('id')
-	reversibilidad = Reversibilidad.objects.all().order_by('id')
-	probabilidad = Probabilidad.objects.all().order_by('id')
-	importancia = Importancia.objects.all().order_by('id')
-
-	context = {
-		'intensidad_fuerte':intensidad_fuerte, 
-		'intensidad_medio':intensidad_medio,
-		'intensidad_suave':intensidad_suave,
-		'extension':extension,
-		'duracion':duracion,
-		'reversibilidad':reversibilidad,
-		'probabilidad':probabilidad,
-		'importancia': importancia,
-	}
-
-	if request.method == 'POST':
-		if request.POST.get('submit'):
-			for i in intensidad_fuerte:
-				if i.valor_sociocultural == 'MA':
-					i.valor = request.POST.get('valor1')
-					i.save()
-				elif i.valor_sociocultural == 'A':
-					i.valor = request.POST.get('valor2')
-					i.save()
-				elif i.valor_sociocultural == 'M':
-					i.valor = request.POST.get('valor3')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor4')
-					i.save()
-
-			for i in intensidad_medio:
-				if i.valor_sociocultural == 'MA':
-					i.valor = request.POST.get('valor5')
-					i.save()
-				elif i.valor_sociocultural == 'A':
-					i.valor = request.POST.get('valor6')
-					i.save()
-				elif i.valor_sociocultural == 'M':
-					i.valor = request.POST.get('valor7')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor8')
-					i.save()
-
-			for i in intensidad_suave:
-				if i.valor_sociocultural == 'MA':
-					i.valor = request.POST.get('valor9')
-					i.save()
-				elif i.valor_sociocultural == 'A':
-					i.valor = request.POST.get('valor10')
-					i.save()
-				elif i.valor_sociocultural == 'M':
-					i.valor = request.POST.get('valor11')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor12')
-					i.save()
-
-			for i in extension:
-				if i.clasificacion == 'GE':
-					i.valor = request.POST.get('valor13')
-					i.save()
-				elif i.clasificacion == 'EX':
-					i.valor = request.POST.get('valor14')
-					i.save()
-				elif i.clasificacion == 'LO':
-					i.valor = request.POST.get('valor15')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor16')
-					i.save()
-
-			for i in duracion:
-				if 	i.criterio == 'M2':
-					i.valor = request.POST.get('valor17')
-					i.save()
-				elif i.criterio == 'M2-5':
-					i.valor = request.POST.get('valor18')
-					i.save()
-				elif i.criterio == 'M5-10':
-					i.valor = request.POST.get('valor19')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor20')
-					i.save()
-
-			for i in reversibilidad:
-				if 	i.clasificacion == 'IR':
-					i.valor = request.POST.get('valor21')
-					i.save()
-				elif i.clasificacion == 'TR':
-					i.valor = request.POST.get('valor22')
-					i.save()
-				elif i.clasificacion == 'MR':
-					i.valor = request.POST.get('valor23')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor24')
-					i.save()
-
-			for i in probabilidad:
-				if 	i.probabilidad == 'A':
-					i.valor = request.POST.get('valor25')
-					i.save()
-				elif i.probabilidad == 'M':
-					i.valor = request.POST.get('valor26')
-					i.save()
-				elif i.probabilidad == 'B':
-					i.valor = request.POST.get('valor27')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor28')
-					i.save()
-
-			for i in importancia:
-				if 	i.importancia == 'MA':
-					i.valor = request.POST.get('valor29')
-					i.save()
-				elif i.importancia == 'A':
-					i.valor = request.POST.get('valor30')
-					i.save()
-				elif i.importancia == 'M':
-					i.valor = request.POST.get('valor31')
-					i.save()
-				else:
-					i.valor = request.POST.get('valor32')
-					i.save()
-
-	return render(request, 'configuracion/modificar_tablas.html', context)
-
-def tablas(request):
-	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
-	intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
-	intensidad_suave = Intensidad.objects.all().filter(grado_perturbacion='S')
-	extension = Extension.objects.all().order_by('id')
-	duracion = Duracion.objects.all().order_by('id')
-	reversibilidad = Reversibilidad.objects.all().order_by('id')
-	probabilidad = Probabilidad.objects.all().order_by('id')
-	importancia = Importancia.objects.all().order_by('id')
-	context = {
-		'intensidad_fuerte':intensidad_fuerte, 
-		'intensidad_medio':intensidad_medio,
-		'intensidad_suave':intensidad_suave,
-		'extension':extension,
-		'duracion':duracion,
-		'reversibilidad':reversibilidad,
-		'probabilidad':probabilidad,
-		'importancia': importancia,
-	}
-
-	return render(request, 'configuracion/tablas.html', context)
-
 # Index de los impactos y listado de los mismos
 def index(request):
 
@@ -420,3 +261,162 @@ def eliminar_estudio(request, pk):
 	estudio = Estudio.objects.get(id=pk).delete()
 	messages.success(request, "Estudio eliminado exitosamente", extra_tags='alert')
 	return HttpResponseRedirect(reverse('index'))
+
+def modificar_tablas(request):
+	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
+	intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
+	intensidad_suave = Intensidad.objects.all().filter(grado_perturbacion='S')
+	extension = Extension.objects.all().order_by('id')
+	duracion = Duracion.objects.all().order_by('id')
+	reversibilidad = Reversibilidad.objects.all().order_by('id')
+	probabilidad = Probabilidad.objects.all().order_by('id')
+	importancia = Importancia.objects.all().order_by('id')
+
+	context = {
+		'intensidad_fuerte':intensidad_fuerte, 
+		'intensidad_medio':intensidad_medio,
+		'intensidad_suave':intensidad_suave,
+		'extension':extension,
+		'duracion':duracion,
+		'reversibilidad':reversibilidad,
+		'probabilidad':probabilidad,
+		'importancia': importancia,
+	}
+
+	if request.method == 'POST':
+		if request.POST.get('submit'):
+			for i in intensidad_fuerte:
+				if i.valor_sociocultural == 'MA':
+					i.valor = request.POST.get('valor1')
+					i.save()
+				elif i.valor_sociocultural == 'A':
+					i.valor = request.POST.get('valor2')
+					i.save()
+				elif i.valor_sociocultural == 'M':
+					i.valor = request.POST.get('valor3')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor4')
+					i.save()
+
+			for i in intensidad_medio:
+				if i.valor_sociocultural == 'MA':
+					i.valor = request.POST.get('valor5')
+					i.save()
+				elif i.valor_sociocultural == 'A':
+					i.valor = request.POST.get('valor6')
+					i.save()
+				elif i.valor_sociocultural == 'M':
+					i.valor = request.POST.get('valor7')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor8')
+					i.save()
+
+			for i in intensidad_suave:
+				if i.valor_sociocultural == 'MA':
+					i.valor = request.POST.get('valor9')
+					i.save()
+				elif i.valor_sociocultural == 'A':
+					i.valor = request.POST.get('valor10')
+					i.save()
+				elif i.valor_sociocultural == 'M':
+					i.valor = request.POST.get('valor11')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor12')
+					i.save()
+
+			for i in extension:
+				if i.clasificacion == 'GE':
+					i.valor = request.POST.get('valor13')
+					i.save()
+				elif i.clasificacion == 'EX':
+					i.valor = request.POST.get('valor14')
+					i.save()
+				elif i.clasificacion == 'LO':
+					i.valor = request.POST.get('valor15')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor16')
+					i.save()
+
+			for i in duracion:
+				if 	i.criterio == 'M2':
+					i.valor = request.POST.get('valor17')
+					i.save()
+				elif i.criterio == 'M2-5':
+					i.valor = request.POST.get('valor18')
+					i.save()
+				elif i.criterio == 'M5-10':
+					i.valor = request.POST.get('valor19')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor20')
+					i.save()
+
+			for i in reversibilidad:
+				if 	i.clasificacion == 'IR':
+					i.valor = request.POST.get('valor21')
+					i.save()
+				elif i.clasificacion == 'TR':
+					i.valor = request.POST.get('valor22')
+					i.save()
+				elif i.clasificacion == 'MR':
+					i.valor = request.POST.get('valor23')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor24')
+					i.save()
+
+			for i in probabilidad:
+				if 	i.probabilidad == 'A':
+					i.valor = request.POST.get('valor25')
+					i.save()
+				elif i.probabilidad == 'M':
+					i.valor = request.POST.get('valor26')
+					i.save()
+				elif i.probabilidad == 'B':
+					i.valor = request.POST.get('valor27')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor28')
+					i.save()
+
+			for i in importancia:
+				if 	i.importancia == 'MA':
+					i.valor = request.POST.get('valor29')
+					i.save()
+				elif i.importancia == 'A':
+					i.valor = request.POST.get('valor30')
+					i.save()
+				elif i.importancia == 'M':
+					i.valor = request.POST.get('valor31')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor32')
+					i.save()
+
+	return render(request, 'configuracion/modificar_tablas.html', context)
+
+def tablas(request):
+	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
+	intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
+	intensidad_suave = Intensidad.objects.all().filter(grado_perturbacion='S')
+	extension = Extension.objects.all().order_by('id')
+	duracion = Duracion.objects.all().order_by('id')
+	reversibilidad = Reversibilidad.objects.all().order_by('id')
+	probabilidad = Probabilidad.objects.all().order_by('id')
+	importancia = Importancia.objects.all().order_by('id')
+	context = {
+		'intensidad_fuerte':intensidad_fuerte, 
+		'intensidad_medio':intensidad_medio,
+		'intensidad_suave':intensidad_suave,
+		'extension':extension,
+		'duracion':duracion,
+		'reversibilidad':reversibilidad,
+		'probabilidad':probabilidad,
+		'importancia': importancia,
+	}
+
+	return render(request, 'configuracion/tablas.html', context)
