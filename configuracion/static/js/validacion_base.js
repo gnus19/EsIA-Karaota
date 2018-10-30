@@ -226,11 +226,6 @@ function validar(){
 		return true;
 	};
 	
-	//Se agrega la funcion de verificar el 100% al presionar el boton submit
-	//constantes.submit.onsubmit = function() {
-    	//return sumatoria_limite();
-	//};
-
 	//Se agrega a cada uno de los campos la validacion al cambiar el contenido del input
 	type = "intensidad";
 	for (var i = 0; i <= cantidad_inputs; i++) { 
