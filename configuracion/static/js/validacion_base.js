@@ -78,7 +78,7 @@ function validar(){
 	}	
 	
 	function esta_en_borde_izquierdo(numero,tabla){
-		return numero == constantes.limites[tabla]
+		return numero == constantes.limites_sub[tabla]
 	}	
 	
 	function esta_en_borde_derecho(numero,tabla){
@@ -160,13 +160,34 @@ function validar(){
 		}
 	}
 	
-	
-	
+
 	function esta_entre_al_lado(input){
 		var tag = input.name;
 		var number = Number(tag.substring(5, tag.length));
 		var valorEntre = Number(input.value);
 		if(number<constantes.limites[1]){
+	
+			//El de mayor valor es el de arriba:
+			var tabla = input_pertenece_intensidad(number);
+			var valor1,valor2
+			
+			if(esta_en_borde_izquierdo(number,tabla)){
+				valor1 = 10;
+				valor2 = document.getElementsByName("valor"+(number+1).toString())[0].value;		
+			}else if(esta_en_borde_derecho(number,tabla)){
+				valor1 = document.getElementsByName("valor"+(number-1).toString())[0].value;
+				valor2 = 0;			
+			}else{
+				valor1 = document.getElementsByName("valor"+(number-1).toString())[0].value;
+				valor2 = document.getElementsByName("valor"+(number+1).toString())[0].value;	
+			}
+			console.log(tabla)
+			console.log(valor1)
+			console.log(valor2)
+			console.log(valorEntre<=valor1 && valorEntre>=valor2)
+			valor1 = Number(valor1);
+			valor2 = Number(valor2);
+			return valorEntre<=valor1 && valorEntre>=valor2;
 			
 		}else{
 			//El de mayor valor es el de arriba:
@@ -193,7 +214,13 @@ function validar(){
 				valor1 = document.getElementsByName("valor"+(number-1).toString())[0].value;
 				valor2 = document.getElementsByName("valor"+(number+1).toString())[0].value;	
 			}
-			
+			valor1 = Number(valor1);
+			valor2 = Number(valor2);		
+			if(valor1<valor2){
+				var temp = valor2;
+				valor2=valor1;
+				valor1=temp;
+			}
 			return valorEntre<=valor1 && valorEntre>=valor2;
 		}		
 	}
@@ -212,16 +239,18 @@ function validar(){
 			return false;				
 		}
 		
-		if(!esta_entre_al_lado(elmnt)){
-			alert("El valor no está entre los limites de sus adyacentes");
-			elmnt.value = set_correct_value(elmnt);
-			return false;				
-		}
 		if(esVacio(elmnt)){
 			alert("El valor no puede ser vacio");
 			elmnt.value = set_correct_value(elmnt);
 			return false;					
 		}
+		
+		if(!esta_entre_al_lado(elmnt)){
+			alert("El valor no está entre sus adyacentes");
+			elmnt.value = set_correct_value(elmnt);
+			return false;			
+		}		
+		
 		
 		return true;
 	};
@@ -244,6 +273,7 @@ function validar(){
 			constantes.inputs[type][j].onchange = function(){
 				validacion_tipos(this);
 			}
+		
 		}
 	}
 	
