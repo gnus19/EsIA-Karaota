@@ -14,6 +14,8 @@
 		</div>
 	</div>	
 </div>
+<form method="post" id="">
+{% csrf_token %}
 <div class="row justify-content-center">
 	<div class="col-md-6 col-sm-12">
 		<table class="indicador">
@@ -32,10 +34,18 @@
 			</tr>
 			<tr>
 				<td>Fuerte</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				{% for i in intensidad_fuerte %}
+				{% if i.valor_sociocultural == 'MA' %}
+				<td>{{formIntensidad.valor}}</td>
+				{% elif i.valor_sociocultural == 'A' %}
+				<td>{{formIntensidad.valor}}</td>
+				{% elif i.valor_sociocultural == 'M' %}
+				<td>{{formIntensidad.valor}}</td>
+				{% elif i.valor_sociocultural == 'B' %}
+				<td>{{formIntensidad.valor}}</td>
+				{% endif %}
+				{% endfor %}
+				
 			</tr>
 			<tr>
 				<td>Medio</td>
@@ -150,28 +160,20 @@
 				<th>Porcentaje</th>
 			</tr>
 			<tr>
-				<td>Intensidad</td>
+				<td>Alta</td>
 				<td><input type="text" name=""></td>
 			</tr>
 			<tr>
-				<td>Extensión</td>
+				<td>Media</td>
 				<td><input type="text" name=""></td>
 			</tr>
 			<tr>
-				<td>Duración</td>
+				<td>Baja</td>
 				<td><input type="text" name=""></td>
 			</tr>
 			<tr>
-				<td>Reversibilidad</td>
+				<td>Nula</td>
 				<td><input type="text" name=""></td>
-			</tr>
-			<tr>
-				<td>Probabilidad</td>
-				<td><input type="text" name=""></td>
-			</tr>
-			<tr>
-				<td style="text-align: right;">Total:</td>
-				<td>100</td>
 			</tr>
 		</table>
 	</div>
@@ -220,4 +222,5 @@
 <div class="row justify-content-center mt-3">
 	<a class="btn" style="background: #4f6228; color: white" href="#">Realizar cambios</a>
 </div>
+</form>
 {%endblock%}
