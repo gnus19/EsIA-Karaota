@@ -14,6 +14,9 @@ function validar(){
 	// Value + i ... i donde empieza los inputs de una tabla
 	constantes.limites = [1,13,17,21,25,29]
 	
+	//Sub limites de la tabla intensidad
+	
+	constantes.limites_sub = [1,5,9]
 	//1:Creciente : El de mas arriba es el de mayor valor
 	//0:Decreciente: el de más arriba es el de menor valor
 	constantes.tablas_orden = [1,1,0,1,1,1]	
@@ -65,22 +68,58 @@ function validar(){
 		return constantes.limites.length-1;
 	}
 	
-	function esta_en_borde_superior(numero,tabla){
+	function input_pertenece_intensidad(numero){
+		for (var i = 0; i < constantes.limites.length-1; i++) { 
+			if(numero>=constantes.limites_sub[i] && numero<constantes.limites_sub[i+1]){
+				return i;
+			}
+		}
+		return constantes.limites.length-1;
+	}	
+	
 
+
+	function esta_en_borde_izquierdo(numero,tabla){
+		return numero == constantes.limites[tabla]
+	}	
+	
+	function esta_en_borde_derecho(numero,tabla){
+		if(numero==constantes.limites[1]-1){
+			return true;
+		}		
+		return numero == constantes.limites_sub[tabla+1]-1
+	}
+	
+	function esta_en_borde_superior(numero,tabla){
 		return numero == constantes.limites[tabla]
 	}
 
-	
 	function esta_en_borde_inferior(numero,tabla){
-		console.log(tabla)
-		console.log(numero)
-		console.log(numero == constantes.limites[tabla+1]-1)
 		if(numero==cantidad_inputs){
 			return true;
 		}
 		return numero == constantes.limites[tabla+1]-1;
 	}	
 	
+	function promedio_intensidad(number,tabla){
+		var number = Number(number)
+		var valor1,valor2;
+		if(esta_en_borde_izquierdo(number,tabla)){
+			valor1 = 10;
+			valor2 = document.getElementsByName("valor"+(number+1).toString())[0].value;		
+
+		}else if(esta_en_borde_derecho(number,tabla)){
+			valor1 = document.getElementsByName("valor"+(number-1).toString())[0].value;
+			valor2 = 0;
+		}else{
+			valor1 = document.getElementsByName("valor"+(number-1).toString())[0].value;
+			valor2 = document.getElementsByName("valor"+(number+1).toString())[0].value;	
+		}
+		valor1 = Number(valor1);
+		valor2 = Number(valor2);
+		return (valor1 + valor2)/2		
+	}
+
 	function promedio(number,tabla,crecimiento){
 		var number = Number(number)
 		var valor1,valor2;
@@ -113,7 +152,9 @@ function validar(){
 		var numero = Number(tag.substring(5, tag.length));
 	
 		if(numero<constantes.limites[1]){
-		
+			//El de mayor valor es el de arriba:
+			var tabla = input_pertenece_intensidad(numero);
+			return promedio_intensidad(numero,tabla)		
 		}else{
 			//El de mayor valor es el de arriba:
 			var tabla = input_pertenece(numero);
@@ -121,12 +162,14 @@ function validar(){
 		}
 	}
 	
+	
+	
 	function esta_entre_al_lado(input){
 		var tag = input.name;
 		var number = Number(tag.substring(5, tag.length));
 		var valorEntre = Number(input.value);
 		if(number<constantes.limites[1]){
-		
+			
 		}else{
 			//El de mayor valor es el de arriba:
 			var tabla = input_pertenece(number);
