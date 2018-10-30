@@ -71,6 +71,78 @@
 				<div class="col-md-6 col-md-offset-2">
 					<div class="form-group">
 						<h6>
+							<label for="">Grado de Perturbacion</label>
+								<select name="grado_perturbacion" id="grado_perturbacion" class="form-control" required>
+									{%for i in view.grado_perturbacion%}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>	
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Valor Socio Cultural</label>
+								<select name="valor_sociocultural" id="valor_sociocultural" class="form-control" required>
+									{%for i in view.valor_sa%}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>	
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Clasificacion de la extension</label>
+								<select name="clasificacion_extension" id="clasificacion_extension" class="form-control" required>
+									{%for i in view.ext_clasificacion%}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+							</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Criterio de la duracion</label>
+								<select name="criterio_duracion" id="criterio_duracion" class="form-control" required>
+									{%for i in view.dur_criterios%}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Clasificacion de la reversibildid</label>
+								<select name="clasificacion_reversibilidad" id="clasificacion_reversibilidad" class="form-control" required>
+									{%for i in view.rev_clasificacion%}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
+							<label for="">Clasificacion de la probabilidad</label>
+								<select name="clasificacion_probabilidad" id="clasificacion_probabilidad" class="form-control" required>
+									{%for i in view.probabilidad%}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+						</h6>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-2">
+					<div class="form-group">
+						<h6>
 							<label for="">{{form.pondIntensidad.label}}</label>
 								{{form.pondIntensidad}}
 						</h6>

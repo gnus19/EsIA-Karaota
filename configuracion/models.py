@@ -33,7 +33,7 @@ DUR_CRITERIOS = (
 	('M2', 'Menos de 2 años'),
 	('M2-5', '2 a 5 años'),
 	('M5-10', '5 a 10 años'),
-	('M10', 'mas de 10 años'),
+	('M10', 'Mas de 10 años'),
 	)
 REV_CLASIFICACION = (
 	('IR', 'Irreversible'),

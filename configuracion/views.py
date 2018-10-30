@@ -68,20 +68,95 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
 
 	# def form_valid(self, form):
 	# 	self.object = form.save(commit=False)
-	# 	val_intensidad = _calcular_intensidad(self.object)
-	# 	val_duracion = _calcular_duracion(self.object)
-	# 	val_reversibilidad = _calcular_reversibilidad(self.object)
-	# 	val_extension = _calcular_extension(self.object)
-	# 	val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad, val_extension)
-	# 	self.object.intensidad = val_intensidad
-	# 	self.object.duracion = val_duracion
-	# 	self.object.reversibilidad = val_reversibilidad
-	# 	self.object.extension = val_extension
-	# 	self.object.via = val_via
-	# 	self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
-	# 	self.object.save()
-	# 	messages.success(self.request, "Estudio agregado exitosamente", extra_tags='alert')
+	# 	print(self.request.nombre)
+	# 	# val_intensidad = _calcular_intensidad(self.object)
+	# 	# val_duracion = _calcular_duracion(self.object)
+	# 	# val_reversibilidad = _calcular_reversibilidad(self.object)
+	# 	# val_extension = _calcular_extension(s == elf.object)
+	# 	# val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad, val_extension)
+	# 	# self.object.intensidad = val_intensidad
+	# 	# self.object.duracion = val_duracion
+	# 	# self.object.reversibilidad = val_reversibilidad
+	# 	# self.object.extension = val_extension
+	# 	# self.object.via = val_via
+	# 	# self.object.importancia_estudio, self.object.valor_estudio = _calcular_importancia(val_via)
+	# 	# self.object.save()
+	# 	# messages.success(self.request, "Estudio agregado exitosamente", extra_tags='alert')
 	# 	return super(ModelFormMixin, self).form_valid(form)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+		form = self.form_class(request.POST)
+
+		consulta_intensidad = Intensidad.objects.all()
+		consulta_extension = Extension.objects.all()
+		consulta_duracion = Duracion.objects.all()
+		consulta_reversibilidad = Reversibilidad.objects.all()
+		consulta_probabilidad = Probabilidad.objects.all()
+
+		grado_perturbacion = request.POST.get('grado_perturbacion')
+		valor_sa = request.POST.get('valor_sociocultural')
+		ext_clasificacion =request.POST.get('clasificacion_extension')
+		dur_criterios =request.POST.get('criterio_duracion')
+		rev_clasificacion = request.POST.get('clasificacion_reversibilidad')
+		probabilidad =request.POST.get('clasificacion_probabilidad')
+
+		for i in consulta_intensidad:
+			if i.valor_sociocultural == valor_sa and i.grado_perturbacion == grado_perturbacion:
+				self.object.intensidad = i.id
+				break
+
+		for i in consulta_extension:
+			if i.clasificacion == ext_clasificacion:
+				self.object.extension = i.id
+				break
+
+		for i in consulta_duracion:
+			if i.criterio == dur_criterios:
+				self.object.duracion = i.id
+				break
+
+		for i in consulta_reversibilidad:
+			if i.clasificacion == rev_clasificacion:
+				self.object.reversibilidad = i.id
+				break
+
+		for i in consulta_probabilidad:
+			if i.probabilidad == probabilidad:
+				self.object.probabilidad = i.id
+				break
+
+		if form.is_valid():
+			formulario = form.save(commit=False)
+			formulario.save()
+			return HttpResponseRedirect(self.get_success_url())
+
+		else:
+			return self.render_to_response(self.get_context_data(form=form))
+
+	def grado_perturbacion(self):
+		GRADO_PERTUBACION = ('Fuerte', 'Medio', 'Suave')
+		return GRADO_PERTUBACION
+
+	def valor_sa(self):
+		VALOR_SA = ('Muy Alto', 'Alto', 'Medio', 'Bajo')
+		return VALOR_SA
+
+	def ext_clasificacion(self):
+		EXT_CLASIFICACION = ('Generalizada (>75%)', 'Extensiva (35-74%)', 'Local (10-34%)', 'Puntual (<10%)')
+		return EXT_CLASIFICACION
+
+	def dur_criterios(self):
+		DUR_CRITERIOS = ('Menos de 2 años', '2 a 5 años', '5 a 10 años', 'Mas de 10 años')
+		return DUR_CRITERIOS
+
+	def rev_clasificacion(self):
+		REV_CLASIFICACION = ('Irreversible', 'Requiere Tratamiento', 'Medianamente Reversible', 'Reversible')
+		return REV_CLASIFICACION
+
+	def probabilidad(self):
+		PROBABILIDAD = ('Alta', 'Media', 'Baja', 'Nula')
+		return PROBABILIDAD
 
 # # Actualizacion de los datos del formulario 
 # class EstudioUpdate(UpdateView, SuccessMessageMixin):
