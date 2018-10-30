@@ -34,15 +34,16 @@
 			</tr>
 			<tr>
 				<td>Fuerte</td>
-				{% for i in intensidad_fuerte %}
+				{{form}}
+				{% for i in form %}
 				{% if i.valor_sociocultural == 'MA' %}
-				<td>{{formIntensidad.valor}}</td>
+				<td>{{i.valor}}</td>
 				{% elif i.valor_sociocultural == 'A' %}
-				<td>{{formIntensidad.valor}}</td>
+				<td>{{i.valor}}</td>
 				{% elif i.valor_sociocultural == 'M' %}
-				<td>{{formIntensidad.valor}}</td>
+				<td>{{i.valor}}</td>
 				{% elif i.valor_sociocultural == 'B' %}
-				<td>{{formIntensidad.valor}}</td>
+				<td>{{i.valor}}</td>
 				{% endif %}
 				{% endfor %}
 				

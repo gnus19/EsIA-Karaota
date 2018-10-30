@@ -298,3 +298,46 @@ def eliminar_estudio(request, pk):
 	estudio = Estudio.objects.get(id=pk).delete()
 	messages.success(request, "Estudio eliminado exitosamente", extra_tags='alert')
 	return HttpResponseRedirect(reverse('index'))
+
+def UpdateValores(UpdateView, SuccessMessageMixin):
+	model = Intensidad
+	second_model = Extension
+	third_model = Duracion
+	form_class = IntesidadForm
+	second_form_class = ExtensionForm
+	third_form_class = DuracionForm
+	template_name = 'configuracion/modificar_tablas.html'
+	success_url = reverse_lazy('modificar_tablas')
+
+	# def get_context_data(self, **kwargs):
+ #        context = super(ClientUpdateView, self).get_context_data(**kwargs)
+ #        context['active_client'] = True
+ #        if 'form' not in context:
+ #            context['form'] = self.form_class(self.request.GET)
+ #        if 'form2' not in context:
+ #            context['form2'] = self.second_form_class(self.request.GET)
+ #        context['active_client'] = True
+ #        return context
+
+ #    def get(self, request, *args, **kwargs):
+ #        super(ClientUpdateView, self).get(request, *args, **kwargs)
+ #        form = self.form_class
+ #        form2 = self.second_form_class
+ #        return self.render_to_response(self.get_context_data(
+ #            object=self.object, form=form, form2=form2))
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object
+
+		form = self.form_class(request.POST)
+		form2 = self.second_form_class(request.POST)
+		form3 = self.third_form_class(request.POST)
+
+		if form.is_valid() and form2.is_valid() and form3.is_valid():
+			form.save()
+			form2.save()
+			form3.save()
+			messages.success(self.request, 'Valor modificados de manera exitosa')
+			return HttpResponseRedirect(self.get_success_url())
+		else:
+			return HttpResponseRedirect(self.get_success_url())
