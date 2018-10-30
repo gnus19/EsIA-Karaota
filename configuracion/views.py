@@ -9,8 +9,31 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
 def modificar_tablas(request):
+	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
+	intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
+	intensidad_suave = Intensidad.objects.all().filter(grado_perturbacion='S')
+	
+	if request.method == 'POST':
+		formIntesidad = IntesidadForm(request.POST)
+		formExtension = ExtensionForm(request.POST)
+		formDuracion = DuracionForm(request.POST)
+		formReversibilidad = ReversibilidadForm(request.POST)
+		formProbabilidad = ProbabilidadForm(request.POST)
+		if (formIntesidad.is_valid() and formExtension.is_valid() and formDuracion.is_valid() and formReversibilidad.is_valid() and formProbabilidad.is_valid()):
+			return redirect('configuracion:modificar_tablas')
+	else:
+		context = {
+			'formIntensidad': IntesidadForm(),
+			'formExtension': ExtensionForm(),
+			'formDuracion': DuracionForm(),
+			'formReversibilidad': ReversibilidadForm(),
+			'formProbabilidad': ProbabilidadForm(),
+			'intensidad_fuerte': intensidad_fuerte,
+			'intensidad_medio': intensidad_medio,
+			'intensidad_suave': intensidad_suave,
+		}		
 
-	return render(request, 'configuracion/modificar_tablas.html', {})
+	return render(request, 'configuracion/modificar_tablas.html', context)
 
 def tablas(request):
 	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
