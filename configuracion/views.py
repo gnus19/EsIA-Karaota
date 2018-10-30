@@ -24,7 +24,7 @@ def tablas(request):
 
 # Index de los impactos y listado de los mismos
 def index(request):
-	_insertar_datos()
+	#_insertar_datos()
 
 	estudios_fisicos = Estudio.objects.filter(tipo="FS")
 	estudios_biologicos = Estudio.objects.filter(tipo="BIO")
