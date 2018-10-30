@@ -74,11 +74,9 @@ function validar(){
 				return i;
 			}
 		}
-		return constantes.limites.length-1;
+		return constantes.limites_sub.length-1;
 	}	
 	
-
-
 	function esta_en_borde_izquierdo(numero,tabla){
 		return numero == constantes.limites[tabla]
 	}	
@@ -260,5 +258,4 @@ function validar(){
 //Al cargar la pagina se activa la funcionalidad de validacion
 window.onload = function() {
 	validar();
-	console.log("FINO")
 };
