@@ -9,6 +9,140 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
 def modificar_tablas(request):
+	intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
+	intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
+	intensidad_suave = Intensidad.objects.all().filter(grado_perturbacion='S')
+	extension = Extension.objects.all().order_by('id')
+	duracion = Duracion.objects.all().order_by('id')
+	reversibilidad = Reversibilidad.objects.all().order_by('id')
+	probabilidad = Probabilidad.objects.all().order_by('id')
+	importancia = Importancia.objects.all().order_by('id')
+
+	context = {
+		'intensidad_fuerte':intensidad_fuerte, 
+		'intensidad_medio':intensidad_medio,
+		'intensidad_suave':intensidad_suave,
+		'extension':extension,
+		'duracion':duracion,
+		'reversibilidad':reversibilidad,
+		'probabilidad':probabilidad,
+		'importancia': importancia,
+	}
+
+	if request.method == 'POST':
+		if request.POST.get('submit'):
+			for i in intensidad_fuerte:
+				if i.valor_sociocultural == 'MA':
+					i.valor = request.POST.get('valor1')
+					i.save()
+				elif i.valor_sociocultural == 'A':
+					i.valor = request.POST.get('valor2')
+					i.save()
+				elif i.valor_sociocultural == 'M':
+					i.valor = request.POST.get('valor3')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor4')
+					i.save()
+
+			for i in intensidad_medio:
+				if i.valor_sociocultural == 'MA':
+					i.valor = request.POST.get('valor5')
+					i.save()
+				elif i.valor_sociocultural == 'A':
+					i.valor = request.POST.get('valor6')
+					i.save()
+				elif i.valor_sociocultural == 'M':
+					i.valor = request.POST.get('valor7')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor8')
+					i.save()
+
+			for i in intensidad_suave:
+				if i.valor_sociocultural == 'MA':
+					i.valor = request.POST.get('valor9')
+					i.save()
+				elif i.valor_sociocultural == 'A':
+					i.valor = request.POST.get('valor10')
+					i.save()
+				elif i.valor_sociocultural == 'M':
+					i.valor = request.POST.get('valor11')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor12')
+					i.save()
+
+			for i in extension:
+				if i.clasificacion == 'GE':
+					i.valor = request.POST.get('valor13')
+					i.save()
+				elif i.clasificacion == 'EX':
+					i.valor = request.POST.get('valor14')
+					i.save()
+				elif i.clasificacion == 'LO':
+					i.valor = request.POST.get('valor15')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor16')
+					i.save()
+
+			for i in duracion:
+				if 	i.criterio == 'M2':
+					i.valor = request.POST.get('valor17')
+					i.save()
+				elif i.criterio == 'M2-5':
+					i.valor = request.POST.get('valor18')
+					i.save()
+				elif i.criterio == 'M5-10':
+					i.valor = request.POST.get('valor19')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor20')
+					i.save()
+
+			for i in reversibilidad:
+				if 	i.clasificacion == 'IR':
+					i.valor = request.POST.get('valor21')
+					i.save()
+				elif i.clasificacion == 'TR':
+					i.valor = request.POST.get('valor22')
+					i.save()
+				elif i.clasificacion == 'MR':
+					i.valor = request.POST.get('valor23')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor24')
+					i.save()
+
+			for i in probabilidad:
+				if 	i.probabilidad == 'A':
+					i.valor = request.POST.get('valor25')
+					i.save()
+				elif i.probabilidad == 'M':
+					i.valor = request.POST.get('valor26')
+					i.save()
+				elif i.probabilidad == 'B':
+					i.valor = request.POST.get('valor27')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor28')
+					i.save()
+
+			for i in importancia:
+				if 	i.importancia == 'MA':
+					i.valor = request.POST.get('valor29')
+					i.save()
+				elif i.importancia == 'A':
+					i.valor = request.POST.get('valor30')
+					i.save()
+				elif i.importancia == 'M':
+					i.valor = request.POST.get('valor31')
+					i.save()
+				else:
+					i.valor = request.POST.get('valor32')
+					i.save()
+
 	return render(request, 'configuracion/modificar_tablas.html', context)
 
 def tablas(request):
@@ -286,46 +420,3 @@ def eliminar_estudio(request, pk):
 	estudio = Estudio.objects.get(id=pk).delete()
 	messages.success(request, "Estudio eliminado exitosamente", extra_tags='alert')
 	return HttpResponseRedirect(reverse('index'))
-
-def UpdateValores(UpdateView, SuccessMessageMixin):
-	model = Intensidad
-	second_model = Extension
-	third_model = Duracion
-	form_class = IntesidadForm
-	second_form_class = ExtensionForm
-	third_form_class = DuracionForm
-	template_name = 'configuracion/modificar_tablas.html'
-	success_url = reverse_lazy('modificar_tablas')
-
-	# def get_context_data(self, **kwargs):
- #        context = super(ClientUpdateView, self).get_context_data(**kwargs)
- #        context['active_client'] = True
- #        if 'form' not in context:
- #            context['form'] = self.form_class(self.request.GET)
- #        if 'form2' not in context:
- #            context['form2'] = self.second_form_class(self.request.GET)
- #        context['active_client'] = True
- #        return context
-
- #    def get(self, request, *args, **kwargs):
- #        super(ClientUpdateView, self).get(request, *args, **kwargs)
- #        form = self.form_class
- #        form2 = self.second_form_class
- #        return self.render_to_response(self.get_context_data(
- #            object=self.object, form=form, form2=form2))
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-
-		form = self.form_class(request.POST)
-		form2 = self.second_form_class(request.POST)
-		form3 = self.third_form_class(request.POST)
-
-		if form.is_valid() and form2.is_valid() and form3.is_valid():
-			form.save()
-			form2.save()
-			form3.save()
-			messages.success(self.request, 'Valor modificados de manera exitosa')
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return HttpResponseRedirect(self.get_success_url())

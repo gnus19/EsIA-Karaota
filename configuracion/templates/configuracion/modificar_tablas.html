@@ -32,35 +32,46 @@
 					<th>Bajo</th>
 				</th>
 			</tr>
-			<tr>
+			<tr>	
 				<td>Fuerte</td>
-				{{form}}
-				{% for i in form %}
+				{% for i in intensidad_fuerte %}
 				{% if i.valor_sociocultural == 'MA' %}
-				<td>{{i.valor}}</td>
+				<td><input type="text" name="valor1" value="{{i.valor}}"></td>
 				{% elif i.valor_sociocultural == 'A' %}
-				<td>{{i.valor}}</td>
+				<td><input type="text" name="valor2" value="{{i.valor}}"></td>
 				{% elif i.valor_sociocultural == 'M' %}
-				<td>{{i.valor}}</td>
+				<td><input type="text" name="valor3" value="{{i.valor}}"></td>
 				{% elif i.valor_sociocultural == 'B' %}
-				<td>{{i.valor}}</td>
+				<td><input type="text" name="valor4" value="{{i.valor}}"></td>
 				{% endif %}
 				{% endfor %}
-
 			</tr>
-			<tr>
 				<td>Medio</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				{% for i in intensidad_medio %}
+				{% if i.valor_sociocultural == 'MA' %}
+				<td><input type="text" name="valor5" value="{{i.valor}}"></td>
+				{% elif i.valor_sociocultural == 'A' %}
+				<td><input type="text" name="valor6" value="{{i.valor}}"></td>
+				{% elif i.valor_sociocultural == 'M' %}
+				<td><input type="text" name="valor7" value="{{i.valor}}"></td>
+				{% elif i.valor_sociocultural == 'B' %}
+				<td><input type="text" name="valor8" value="{{i.valor}}"></td>
+				{% endif %}
+				{% endfor %}
 			</tr>
 			<tr>
 				<td>Suave</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				{% for i in intensidad_suave %}
+				{% if i.valor_sociocultural == 'MA' %}
+				<td><input type="text" name="valor9" value="{{i.valor}}"></td>
+				{% elif i.valor_sociocultural == 'A' %}
+				<td><input type="text" name="valor10" value="{{i.valor}}"></td>
+				{% elif i.valor_sociocultural == 'M' %}
+				<td><input type="text" name="valor11" value="{{i.valor}}"></td>
+				{% elif i.valor_sociocultural == 'B' %}
+				<td><input type="text" name="valor12" value="{{i.valor}}"></td>
+				{% endif %}
+				{% endfor %}
 			</tr>
 		</table>
 	</div>
@@ -78,24 +89,31 @@
 				</th>
 			</tr>
 			<tr>
+				{% for i in extension %}
+				{% if i.clasificacion == 'GE' %}
 				<td>Generalizada</td>
 				<td>>75%</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor13" value="{{i.valor}}"></td>
 			</tr>
 			<tr>
+				{% elif i.clasificacion == 'EX' %}
 				<td>Extensiva</td>
 				<td>35-74%</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor14" value="{{i.valor}}"></td>
 			</tr>
 			<tr>
+				{% elif i.clasificacion == 'LO' %}
 				<td>Local</td>
 				<td>10-34%</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor15" value="{{i.valor}}"></td>
 			</tr>
 			<tr>
+				{% elif i.clasificacion == 'PU' %}
 				<td>Puntual</td>
 				<td><10%</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor16" value="{{i.valor}}"></td>
+				{% endif %}
+				{% endfor %}
 			</tr>
 		</table>
 	</div>
@@ -108,22 +126,29 @@
 				<th>Criterios</th>
 				<th>Valor</th>
 			</tr>
+			{% for i in duracion %}
+			{% if i.criterio == 'M2' %}
 			<tr>
 				<td>Menos de 2 años</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor17" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.criterio == 'M2-5' %}
 			<tr>
 				<td>2 a 5 años</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor18" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.criterio == 'M5-10' %}
 			<tr>
 				<td>5 a 10 años</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor19" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.criterio == 'M10' %}
 			<tr>
 				<td>Más de 10 años</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor20" value="{{i.valor}}"></td>
 			</tr>
+			{% endif %}
+			{% endfor %}
 		</table>
 	</div>
 	<div class="col-md-6 col-sm-12">
@@ -133,49 +158,63 @@
 				<th>Clasificación</th>
 				<th>Valor</th>
 			</tr>
+			{% for i in reversibilidad %}
+			{% if i.clasificacion == 'IR' %}
 			<tr>
 				<td>Irreversible</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor21" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.clasificacion == 'TR' %}
 			<tr>
 				<td>Requiere tratamiento</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor22" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.clasificacion == 'MR' %}
 			<tr>
 				<td>Medianamente reversible</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor23" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.clasificacion == 'RE' %}
 			<tr>
 				<td>Reversible</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor24" value="{{i.valor}}"></td>
 			</tr>
+			{% endif %}
+			{% endfor %}
 		</table>
 	</div>
 </div>
 <div class="row justify-content-center">
 	<div class="col-md-6 col-sm-12">
 		<table class="indicador">
-			<caption>Ponderación de criterios de evaluación</caption>
+			<caption>Probabilidades</caption>
 			<tr class="cabecera">
 				<th>Clasificación</th>
 				<th>Porcentaje</th>
 			</tr>
+			{% for i in probabilidad %}
+			{% if i.probabilidad == 'A' %}
 			<tr>
 				<td>Alta</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor25" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.probabilidad == 'M' %}
 			<tr>
 				<td>Media</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor26" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.probabilidad == 'B' %}
 			<tr>
 				<td>Baja</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor27" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.probabilidad == 'N' %}
 			<tr>
 				<td>Nula</td>
-				<td><input type="text" name=""></td>
+				<td><input type="text" name="valor28" value="{{i.valor}}"></td>
 			</tr>
+			{% endif %}
+			{% endfor %}
 		</table>
 	</div>
 	<div class="col-md-6 col-sm-12">
@@ -193,35 +232,42 @@
 				</th>
 				<th></th>
 			</tr>
+			{% for i in importancia %}
+			{% if i.importancia == 'MA' %}
 			<tr>
 				<td>Muy alta</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				<td>{{i.minimo}}</td>
+				<td>{{i.maximo}}</td>
+				<td><input type="text" name="valor29" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.importancia == 'A' %}
 			<tr>
 				<td>Alta</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				<td>{{i.minimo}}</td>
+				<td>{{i.maximo}}</td>
+				<td><input type="text" name="valor30" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.importancia == 'M' %}
 			<tr>
 				<td>Media</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				<td>{{i.minimo}}</td>
+				<td>{{i.maximo}}</td>
+				<td><input type="text" name="valor31" value="{{i.valor}}"></td>
 			</tr>
+			{% elif i.importancia == 'B' %}
 			<tr>
 				<td>Baja</td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
-				<td><input type="text" name=""></td>
+				<td>{{i.minimo}}</td>
+				<td>{{i.maximo}}</td>
+				<td><input type="text" name="valor32" value="{{i.valor}}"></td>
 			</tr>
+			{% endif %}
+			{% endfor %}
 		</table>
 	</div>
 </div>
 <div class="row justify-content-center mt-3">
-	<a class="btn" style="background: #4f6228; color: white" href="#">Realizar cambios</a>
+	<input class="btn" type='submit' name='submit' style="background: #4f6228; color: white">
 </div>
 </form>
 {%endblock%}
