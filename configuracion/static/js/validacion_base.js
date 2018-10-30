@@ -176,19 +176,14 @@ function validar(){
 			elmnt.value = set_correct_value(elmnt);
 			return false;				
 		}
+		if(esVacio(elmnt)){
+			alert("El valor no puede ser vacio");
+			elmnt.value = set_correct_value(elmnt);
+			return false;					
+		}
 		
 		return true;
 	};
-
-	
-	function validacion_extension(){
-		
-	};
-	
-
-
-	
-
 	
 	//Se agrega la funcion de verificar el 100% al presionar el boton submit
 	//constantes.submit.onsubmit = function() {
@@ -215,8 +210,6 @@ function validar(){
 			}
 		}
 	}
-	
-
 	
 	
 };
