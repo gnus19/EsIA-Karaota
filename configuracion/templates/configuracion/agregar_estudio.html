@@ -1,5 +1,7 @@
 {% extends 'configuracion/base.html' %}
+{% load static %}
 	{%block contenido%}
+	<script src="{% static 'js/validacion_ponderacion.js' %}" type="text/javascript"></script>
 	{% if form.errors %}
 	{% for fields in form %}
 	{% for error in fields.errors %}
