@@ -55,8 +55,8 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         # step = form_step.get_attribute("value")
         # self.assertEqual(step, nombre_uno)
 
-        time.sleep(2)
-        self.browser.find_element_by_name('probabilidad').send_keys(8) #agregamos la probabilidad
+        # time.sleep(2)
+        # self.browser.find_element_by_name('clasificacion_probabilidad').send_keys(8) #agregamos la probabilidad
         time.sleep(2)
         self.browser.execute_script("window.scrollTo(0, 720)") #movemos el scroll un poco
         time.sleep(4)
@@ -91,8 +91,8 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         select_tipo = Select(self.browser.find_element_by_name('tipo'))
         time.sleep(2)
         select_tipo.select_by_visible_text('Biologico')
-        time.sleep(2)
-        self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
+        # time.sleep(2)
+        # self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
         time.sleep(2)
         self.browser.execute_script("window.scrollTo(0, 720)") #movemos el scroll un poco
         time.sleep(2)
@@ -124,8 +124,8 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         select_tipo = Select(self.browser.find_element_by_name('tipo'))
         time.sleep(2)
         select_tipo.select_by_visible_text('Socio-Cultural')
-        time.sleep(2)
-        self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
+        # time.sleep(2)
+        # self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
         time.sleep(2)
         self.browser.execute_script("window.scrollTo(0, 720)") #movemos el scroll un poco
         time.sleep(2)
@@ -165,8 +165,8 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         select_tipo_relevancia = Select(self.browser.find_element_by_name('tipo_relevancia'))
         time.sleep(2)
         select_tipo_relevancia.select_by_visible_text('Indirecto')
-        time.sleep(2)
-        self.browser.find_element_by_name('probabilidad').send_keys(6) #agregamos la probabilidad
+        # time.sleep(2)
+        # self.browser.find_element_by_name('probabilidad').send_keys(6) #agregamos la probabilidad
         time.sleep(2)
         self.browser.execute_script("window.scrollTo(0, 720)") #movemos el scroll un poco
         time.sleep(2)
@@ -198,8 +198,8 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         select_tipo = Select(self.browser.find_element_by_name('tipo'))
         time.sleep(2)
         select_tipo.select_by_visible_text('Fisico')
-        time.sleep(2)
-        self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
+        # time.sleep(2)
+        # self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
         time.sleep(2)
         self.browser.execute_script("window.scrollTo(0, 720)") #movemos el scroll un poco
         time.sleep(4)
@@ -277,6 +277,7 @@ class PruebaFormularioEstudio(LiveServerTestCase):
 
         self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
         time.sleep(10)
+
 
     def tearDown(self):
         # Llama al tearDown al cerrar el browser

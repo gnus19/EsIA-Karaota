@@ -396,7 +396,7 @@ def modificar_tablas(request):
 				else:
 					i.valor = request.POST.get('valor32')
 					i.save()
-		messages.success(request, "Datos modificados exitosamente")
+		messages.success(request, "Datos modificados exitosamente", extra_tags='alert')
 		return redirect('/configuracion/tablas/')
 
 	return render(request, 'configuracion/modificar_tablas.html', context)
