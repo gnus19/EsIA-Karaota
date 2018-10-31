@@ -2,6 +2,15 @@
 {% load static %}
 {%block contenido%}
 <script src="{% static 'js/validacion_base.js' %}" type="text/javascript"></script>
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
 <div class="row justify-content-center">
 	<div class="col-1">
 		<div class="col-md-6 col-md-offset-2" align="center">
@@ -269,7 +278,7 @@
 	</div>
 </div>
 <div class="row justify-content-center mt-3">
-	<input class="btn" type='submit' name='submit' style="background: #4f6228; color: white">
+	<input class="btn" type='submit' name='submit' value="Guardar Cambios" style="background: #4f6228; color: white">
 </div>
 </form>
 {%endblock%}
