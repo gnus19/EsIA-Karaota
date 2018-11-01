@@ -3,9 +3,11 @@ from selenium import webdriver
 from selenium.webdriver.common.alert import Alert
 from configuracion.models import *
 from selenium.webdriver.support.ui import Select
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import time
 
-class PruebaFormularioEstudio(LiveServerTestCase):
+
+class PruebaFormularioEstudio(StaticLiveServerTestCase):
     port = 8005
 
     def setUp(self):
@@ -276,7 +278,9 @@ class PruebaFormularioEstudio(LiveServerTestCase):
         confirmacion.accept()
 
         self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
-        time.sleep(10)
+        time.sleep(5)
+
+        
 
 
     def tearDown(self):
