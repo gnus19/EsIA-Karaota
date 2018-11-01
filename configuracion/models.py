@@ -1,3 +1,5 @@
+""" Models de Configuracion
+"""
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from configuracion.migrations import *
