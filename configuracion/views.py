@@ -50,7 +50,7 @@ def index(request):
 
     return render(request, 'configuracion/index.html', {'lista':lista})
 
-class EstudioCreate(CreateView, SuccessMessageMixin):
+class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many-ancestors
     """Formulario para registrar un estudio/impacto
     """
     model = Estudio
@@ -61,8 +61,16 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
     def form_valid(self, form):
         """asas
         """
+        # pylint: disable=attribute-defined-outside-init
         self.object = form.save(commit=False)
+        self._asignar_valores_estudio()
 
+        messages.success(self.request, "Estudio agregado exitosamente", extra_tags='alert')
+        return super().form_valid(form)
+
+    def _asignar_valores_estudio(self):
+        """asas
+        """
         grado_perturbacion = self.request.POST.get('grado_perturbacion')
         valor_sa = self.request.POST.get('valor_sociocultural')
         ext_clasificacion = self.request.POST.get('clasificacion_extension')
@@ -116,8 +124,6 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
                 break
 
         self.object.save()
-        messages.success(self.request, "Estudio agregado exitosamente", extra_tags='alert')
-        return super().form_valid(form)
 
     @classmethod
     def grado_perturbacion(cls):
@@ -191,7 +197,7 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
             )
         return probabilidad
 
-class EstudioUpdate(UpdateView, SuccessMessageMixin):
+class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many-ancestors
     """Actualizacion de los datos del formulario
     """
     model = Estudio
@@ -203,61 +209,10 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
         """aa
         """
         if self.request.POST.get('editar'):
+            # pylint: disable=attribute-defined-outside-init
             self.object = form.save(commit=False)
+            self._asignar_valores_estudio()
 
-            grado_perturbacion = self.request.POST.get('grado_perturbacion')
-            valor_sa = self.request.POST.get('valor_sociocultural')
-            ext_clasificacion = self.request.POST.get('clasificacion_extension')
-            dur_criterios = self.request.POST.get('criterio_duracion')
-            rev_clasificacion = self.request.POST.get('clasificacion_reversibilidad')
-            probabilidad = self.request.POST.get('clasificacion_probabilidad')
-
-            val_intensidad = 0
-            val_duracion = 0
-            val_reversibilidad = 0
-            val_extension = 0
-            val_probabilidad = 0
-
-            for i in Intensidad.objects.all():
-                if (dict(VALOR_SA).get(i.valor_sociocultural) == valor_sa and
-                        dict(GRADO_PERTUBACION).get(i.grado_perturbacion) == grado_perturbacion):
-                    self.object.intensidad = i
-                    val_intensidad = i.valor
-                    break
-
-            for i in Extension.objects.all():
-                if dict(EXT_CLASIFICACION).get(i.clasificacion) == ext_clasificacion:
-                    self.object.extension = i
-                    val_extension = i.valor
-                    break
-
-            for i in Duracion.objects.all():
-                if dict(DUR_CRITERIOS).get(i.criterio) == dur_criterios:
-                    self.object.duracion = i
-                    val_duracion = i.valor
-                    break
-
-            for i in Reversibilidad.objects.all():
-                if dict(REV_CLASIFICACION).get(i.clasificacion) == rev_clasificacion:
-                    self.object.reversibilidad = i
-                    val_reversibilidad = i.valor
-                    break
-
-            for i in Probabilidad.objects.all():
-                if dict(PROBABILIDAD).get(i.probabilidad) == probabilidad:
-                    self.object.probabilidad = i
-                    val_probabilidad = i.valor
-                    break
-
-            self.object.via = _calcular_via(self.object, val_intensidad, val_duracion,
-                                            val_reversibilidad, val_extension, val_probabilidad)
-
-            for i in Importancia.objects.all():
-                if i.minimo <= self.object.via <= i.maximo:
-                    self.object.importancia_estudio = i
-                    break
-
-            self.object.save()
             messages.success(
                 self.request,
                 "Datos del estudio modificados exitosamente",
@@ -265,9 +220,62 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
                 )
         return super().form_valid(form)
 
-    # def get_context_data(self, **kwargs):
-    #   context = super(EstudioUpdate, self).get_context_data(**kwargs)
-    #   return context
+    def _asignar_valores_estudio(self):
+        """asas
+        """
+        grado_perturbacion = self.request.POST.get('grado_perturbacion')
+        valor_sa = self.request.POST.get('valor_sociocultural')
+        ext_clasificacion = self.request.POST.get('clasificacion_extension')
+        dur_criterios = self.request.POST.get('criterio_duracion')
+        rev_clasificacion = self.request.POST.get('clasificacion_reversibilidad')
+        probabilidad = self.request.POST.get('clasificacion_probabilidad')
+
+        val_intensidad = 0
+        val_duracion = 0
+        val_reversibilidad = 0
+        val_extension = 0
+        val_probabilidad = 0
+
+        for i in Intensidad.objects.all():
+            if (dict(VALOR_SA).get(i.valor_sociocultural) == valor_sa and
+                    dict(GRADO_PERTUBACION).get(i.grado_perturbacion) == grado_perturbacion):
+                self.object.intensidad = i
+                val_intensidad = i.valor
+                break
+
+        for i in Extension.objects.all():
+            if dict(EXT_CLASIFICACION).get(i.clasificacion) == ext_clasificacion:
+                self.object.extension = i
+                val_extension = i.valor
+                break
+
+        for i in Duracion.objects.all():
+            if dict(DUR_CRITERIOS).get(i.criterio) == dur_criterios:
+                self.object.duracion = i
+                val_duracion = i.valor
+                break
+
+        for i in Reversibilidad.objects.all():
+            if dict(REV_CLASIFICACION).get(i.clasificacion) == rev_clasificacion:
+                self.object.reversibilidad = i
+                val_reversibilidad = i.valor
+                break
+
+        for i in Probabilidad.objects.all():
+            if dict(PROBABILIDAD).get(i.probabilidad) == probabilidad:
+                self.object.probabilidad = i
+                val_probabilidad = i.valor
+                break
+
+        self.object.via = _calcular_via(self.object, val_intensidad, val_duracion,
+                                        val_reversibilidad, val_extension, val_probabilidad)
+
+        for i in Importancia.objects.all():
+            if i.minimo <= self.object.via <= i.maximo:
+                self.object.importancia_estudio = i
+                break
+
+        self.object.save()
 
     @classmethod
     def grado_perturbacion(cls):
@@ -348,6 +356,7 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
             return reverse('index')
         return reverse('index')
 
+# pylint: disable=too-many-arguments
 def _calcular_via(estudio, valor_intensidad, valor_duracion, valor_reversibilidad,
                   valor_extension, valor_probabilidad):
     """Calculo del VIA
@@ -392,118 +401,16 @@ def modificar_tablas(request):
 
     if request.method == 'POST':
         if request.POST.get('submit'):
-            for i in intensidad_fuerte:
-                if i.valor_sociocultural == 'MA':
-                    i.valor = request.POST.get('valor1')
-                    i.save()
-                elif i.valor_sociocultural == 'A':
-                    i.valor = request.POST.get('valor2')
-                    i.save()
-                elif i.valor_sociocultural == 'M':
-                    i.valor = request.POST.get('valor3')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor4')
-                    i.save()
+            _conseguir_valor_tabla_intensidad_fuerte(request, intensidad_fuerte)
+            _conseguir_valor_tabla_intensidad_medio(request, intensidad_medio)
+            _conseguir_valor_tabla_intensidad_suave(request, intensidad_suave)
+            _conseguir_valor_tabla_extension(request, extension)
+            _conseguir_valor_tabla_duracion(request, duracion)
+            _conseguir_valor_tabla_reversibilidad(request, reversibilidad)
+            _conseguir_valor_tabla_probabilidad(request, probabilidad)
+            _conseguir_valor_tabla_importancia(request, importancia)
 
-            for i in intensidad_medio:
-                if i.valor_sociocultural == 'MA':
-                    i.valor = request.POST.get('valor5')
-                    i.save()
-                elif i.valor_sociocultural == 'A':
-                    i.valor = request.POST.get('valor6')
-                    i.save()
-                elif i.valor_sociocultural == 'M':
-                    i.valor = request.POST.get('valor7')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor8')
-                    i.save()
-
-            for i in intensidad_suave:
-                if i.valor_sociocultural == 'MA':
-                    i.valor = request.POST.get('valor9')
-                    i.save()
-                elif i.valor_sociocultural == 'A':
-                    i.valor = request.POST.get('valor10')
-                    i.save()
-                elif i.valor_sociocultural == 'M':
-                    i.valor = request.POST.get('valor11')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor12')
-                    i.save()
-
-            for i in extension:
-                if i.clasificacion == 'GE':
-                    i.valor = request.POST.get('valor13')
-                    i.save()
-                elif i.clasificacion == 'EX':
-                    i.valor = request.POST.get('valor14')
-                    i.save()
-                elif i.clasificacion == 'LO':
-                    i.valor = request.POST.get('valor15')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor16')
-                    i.save()
-
-            for i in duracion:
-                if  i.criterio == 'M2':
-                    i.valor = request.POST.get('valor17')
-                    i.save()
-                elif i.criterio == 'M2-5':
-                    i.valor = request.POST.get('valor18')
-                    i.save()
-                elif i.criterio == 'M5-10':
-                    i.valor = request.POST.get('valor19')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor20')
-                    i.save()
-
-            for i in reversibilidad:
-                if  i.clasificacion == 'IR':
-                    i.valor = request.POST.get('valor21')
-                    i.save()
-                elif i.clasificacion == 'TR':
-                    i.valor = request.POST.get('valor22')
-                    i.save()
-                elif i.clasificacion == 'MR':
-                    i.valor = request.POST.get('valor23')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor24')
-                    i.save()
-
-            for i in probabilidad:
-                if  i.probabilidad == 'A':
-                    i.valor = request.POST.get('valor25')
-                    i.save()
-                elif i.probabilidad == 'M':
-                    i.valor = request.POST.get('valor26')
-                    i.save()
-                elif i.probabilidad == 'B':
-                    i.valor = request.POST.get('valor27')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor28')
-                    i.save()
-
-            for i in importancia:
-                if  i.importancia == 'MA':
-                    i.valor = request.POST.get('valor29')
-                    i.save()
-                elif i.importancia == 'A':
-                    i.valor = request.POST.get('valor30')
-                    i.save()
-                elif i.importancia == 'M':
-                    i.valor = request.POST.get('valor31')
-                    i.save()
-                else:
-                    i.valor = request.POST.get('valor32')
-                    i.save()
-        messages.success(request, "Datos modificados exitosamente", extra_tags='alert')
+            messages.success(request, "Datos modificados exitosamente", extra_tags='alert')
         return redirect('/configuracion/tablas/')
 
     return render(request, 'configuracion/modificar_tablas.html', context)
@@ -531,3 +438,139 @@ def tablas(request):
     }
 
     return render(request, 'configuracion/tablas.html', context)
+
+def _conseguir_valor_tabla_intensidad_fuerte(request, intensidad_fuerte):
+    """aaa
+    """
+    for i in intensidad_fuerte:
+        if i.valor_sociocultural == 'MA':
+            i.valor = request.POST.get('valor1')
+            i.save()
+        elif i.valor_sociocultural == 'A':
+            i.valor = request.POST.get('valor2')
+            i.save()
+        elif i.valor_sociocultural == 'M':
+            i.valor = request.POST.get('valor3')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor4')
+            i.save()
+
+def _conseguir_valor_tabla_intensidad_medio(request, intensidad_medio):
+    """aaa
+    """
+    for i in intensidad_medio:
+        if i.valor_sociocultural == 'MA':
+            i.valor = request.POST.get('valor5')
+            i.save()
+        elif i.valor_sociocultural == 'A':
+            i.valor = request.POST.get('valor6')
+            i.save()
+        elif i.valor_sociocultural == 'M':
+            i.valor = request.POST.get('valor7')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor8')
+            i.save()
+
+def _conseguir_valor_tabla_intensidad_suave(request, intensidad_suave):
+    """aaa
+    """
+    for i in intensidad_suave:
+        if i.valor_sociocultural == 'MA':
+            i.valor = request.POST.get('valor9')
+            i.save()
+        elif i.valor_sociocultural == 'A':
+            i.valor = request.POST.get('valor10')
+            i.save()
+        elif i.valor_sociocultural == 'M':
+            i.valor = request.POST.get('valor11')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor12')
+            i.save()
+
+def _conseguir_valor_tabla_extension(request, extension):
+    """aaa
+    """
+    for i in extension:
+        if i.clasificacion == 'GE':
+            i.valor = request.POST.get('valor13')
+            i.save()
+        elif i.clasificacion == 'EX':
+            i.valor = request.POST.get('valor14')
+            i.save()
+        elif i.clasificacion == 'LO':
+            i.valor = request.POST.get('valor15')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor16')
+            i.save()
+
+def _conseguir_valor_tabla_duracion(request, duracion):
+    """aaa
+    """
+    for i in duracion:
+        if  i.criterio == 'M2':
+            i.valor = request.POST.get('valor17')
+            i.save()
+        elif i.criterio == 'M2-5':
+            i.valor = request.POST.get('valor18')
+            i.save()
+        elif i.criterio == 'M5-10':
+            i.valor = request.POST.get('valor19')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor20')
+            i.save()
+
+def _conseguir_valor_tabla_reversibilidad(request, reversibilidad):
+    """aaa
+    """
+    for i in reversibilidad:
+        if  i.clasificacion == 'IR':
+            i.valor = request.POST.get('valor21')
+            i.save()
+        elif i.clasificacion == 'TR':
+            i.valor = request.POST.get('valor22')
+            i.save()
+        elif i.clasificacion == 'MR':
+            i.valor = request.POST.get('valor23')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor24')
+            i.save()
+
+def _conseguir_valor_tabla_probabilidad(request, probabilidad):
+    """aaa
+    """
+    for i in probabilidad:
+        if  i.probabilidad == 'A':
+            i.valor = request.POST.get('valor25')
+            i.save()
+        elif i.probabilidad == 'M':
+            i.valor = request.POST.get('valor26')
+            i.save()
+        elif i.probabilidad == 'B':
+            i.valor = request.POST.get('valor27')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor28')
+            i.save()
+
+def _conseguir_valor_tabla_importancia(request, importancia):
+    """aaa
+    """
+    for i in importancia:
+        if  i.importancia == 'MA':
+            i.valor = request.POST.get('valor29')
+            i.save()
+        elif i.importancia == 'A':
+            i.valor = request.POST.get('valor30')
+            i.save()
+        elif i.importancia == 'M':
+            i.valor = request.POST.get('valor31')
+            i.save()
+        else:
+            i.valor = request.POST.get('valor32')
+            i.save()
