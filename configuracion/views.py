@@ -3,13 +3,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView
-from django.views.generic.edit import ModelFormMixin
 from django.urls import reverse_lazy, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from configuracion.forms import EstudioForm
 from configuracion.models import Estudio, Intensidad, Duracion, Extension
 from configuracion.models import Reversibilidad, Probabilidad, Importancia
+from configuracion.models import GRADO_PERTUBACION
+from configuracion.models import VALOR_SA, EXT_CLASIFICACION, DUR_CRITERIOS
+from configuracion.models import REV_CLASIFICACION, PROBABILIDAD
 
 def index(request):
     """Index de los impactos y listado de los mismos
@@ -60,14 +62,6 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
         """asas
         """
         self.object = form.save(commit=False)
-        form.instance.user = self.request.user
-
-        consulta_intensidad = Intensidad.objects.all()
-        consulta_extension = Extension.objects.all()
-        consulta_duracion = Duracion.objects.all()
-        consulta_reversibilidad = Reversibilidad.objects.all()
-        consulta_probabilidad = Probabilidad.objects.all()
-        consulta_importancia = Importancia.objects.all()
 
         grado_perturbacion = self.request.POST.get('grado_perturbacion')
         valor_sa = self.request.POST.get('valor_sociocultural')
@@ -82,116 +76,120 @@ class EstudioCreate(CreateView, SuccessMessageMixin):
         val_extension = 0
         val_probabilidad = 0
 
-        for i in consulta_intensidad:
+        for i in Intensidad.objects.all():
             if (dict(VALOR_SA).get(i.valor_sociocultural) == valor_sa and
                     dict(GRADO_PERTUBACION).get(i.grado_perturbacion) == grado_perturbacion):
                 self.object.intensidad = i
                 val_intensidad = i.valor
                 break
 
-        for i in consulta_extension:
+        for i in Extension.objects.all():
             if dict(EXT_CLASIFICACION).get(i.clasificacion) == ext_clasificacion:
                 self.object.extension = i
                 val_extension = i.valor
                 break
 
-        for i in consulta_duracion:
+        for i in Duracion.objects.all():
             if dict(DUR_CRITERIOS).get(i.criterio) == dur_criterios:
                 self.object.duracion = i
                 val_duracion = i.valor
                 break
 
-        for i in consulta_reversibilidad:
+        for i in Reversibilidad.objects.all():
             if dict(REV_CLASIFICACION).get(i.clasificacion) == rev_clasificacion:
                 self.object.reversibilidad = i
                 val_reversibilidad = i.valor
                 break
 
-        for i in consulta_probabilidad:
+        for i in Probabilidad.objects.all():
             if dict(PROBABILIDAD).get(i.probabilidad) == probabilidad:
                 self.object.probabilidad = i
                 val_probabilidad = i.valor
                 break
 
-        val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad,
-                                val_extension, val_probabilidad)
+        self.object.via = _calcular_via(self.object, val_intensidad, val_duracion,
+                                        val_reversibilidad, val_extension, val_probabilidad)
 
-        self.object.via = val_via
-
-        for i in consulta_importancia:
-            if i.minimo <= val_via <= i.maximo:
+        for i in Importancia.objects.all():
+            if i.minimo <= self.object.via <= i.maximo:
                 self.object.importancia_estudio = i
                 break
 
         self.object.save()
         messages.success(self.request, "Estudio agregado exitosamente", extra_tags='alert')
-        return super(ModelFormMixin, self).form_valid(form)
+        return super().form_valid(form)
 
-    def grado_perturbacion(self):
+    @classmethod
+    def grado_perturbacion(cls):
         """aa
         """
 
-        GRADO_PERTUBACION = (
+        grado_pertubacion = (
             'Fuerte',
             'Medio',
             'Suave'
             )
-        return GRADO_PERTUBACION
+        return grado_pertubacion
 
-    def valor_sa(self):
+    @classmethod
+    def valor_sa(cls):
         """aa
         """
-        VALOR_SA = (
+        valor_sa = (
             'Muy Alto',
             'Alto',
             'Medio',
             'Bajo'
             )
-        return VALOR_SA
+        return valor_sa
 
-    def ext_clasificacion(self):
+    @classmethod
+    def ext_clasificacion(cls):
         """aa
         """
-        EXT_CLASIFICACION = (
+        ext_clasificacion = (
             'Generalizada (>75%)',
             'Extensiva (35-74%)',
             'Local (10-34%)',
             'Puntual (<10%)'
             )
-        return EXT_CLASIFICACION
+        return ext_clasificacion
 
-    def dur_criterios(self):
+    @classmethod
+    def dur_criterios(cls):
         """aa
         """
-        DUR_CRITERIOS = (
+        dur_criterios = (
             'Menos de 2 años',
             '2 a 5 años',
             '5 a 10 años',
             'Mas de 10 años'
             )
-        return DUR_CRITERIOS
+        return dur_criterios
 
-    def rev_clasificacion(self):
+    @classmethod
+    def rev_clasificacion(cls):
         """aa
         """
-        REV_CLASIFICACION = (
+        rev_clasificacion = (
             'Irreversible',
             'Requiere Tratamiento',
             'Medianamente Reversible',
             'Reversible'
             )
-        return REV_CLASIFICACION
+        return rev_clasificacion
 
-    def probabilidad(self):
+    @classmethod
+    def probabilidad(cls):
         """aa
         """
-        PROBABILIDAD = (
+        probabilidad = (
             'Alta',
             'Media',
             'Baja',
             'Nula'
             )
-        return PROBABILIDAD
+        return probabilidad
 
 class EstudioUpdate(UpdateView, SuccessMessageMixin):
     """Actualizacion de los datos del formulario
@@ -206,15 +204,6 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
         """
         if self.request.POST.get('editar'):
             self.object = form.save(commit=False)
-            form.instance.user = self.request.user
-            print(self.object)
-
-            consulta_intensidad = Intensidad.objects.all()
-            consulta_extension = Extension.objects.all()
-            consulta_duracion = Duracion.objects.all()
-            consulta_reversibilidad = Reversibilidad.objects.all()
-            consulta_probabilidad = Probabilidad.objects.all()
-            consulta_importancia = Importancia.objects.all()
 
             grado_perturbacion = self.request.POST.get('grado_perturbacion')
             valor_sa = self.request.POST.get('valor_sociocultural')
@@ -229,43 +218,42 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
             val_extension = 0
             val_probabilidad = 0
 
-            for i in consulta_intensidad:
+            for i in Intensidad.objects.all():
                 if (dict(VALOR_SA).get(i.valor_sociocultural) == valor_sa and
                         dict(GRADO_PERTUBACION).get(i.grado_perturbacion) == grado_perturbacion):
                     self.object.intensidad = i
                     val_intensidad = i.valor
                     break
 
-            for i in consulta_extension:
+            for i in Extension.objects.all():
                 if dict(EXT_CLASIFICACION).get(i.clasificacion) == ext_clasificacion:
                     self.object.extension = i
                     val_extension = i.valor
                     break
 
-            for i in consulta_duracion:
+            for i in Duracion.objects.all():
                 if dict(DUR_CRITERIOS).get(i.criterio) == dur_criterios:
                     self.object.duracion = i
                     val_duracion = i.valor
                     break
 
-            for i in consulta_reversibilidad:
+            for i in Reversibilidad.objects.all():
                 if dict(REV_CLASIFICACION).get(i.clasificacion) == rev_clasificacion:
                     self.object.reversibilidad = i
                     val_reversibilidad = i.valor
                     break
 
-            for i in consulta_probabilidad:
+            for i in Probabilidad.objects.all():
                 if dict(PROBABILIDAD).get(i.probabilidad) == probabilidad:
                     self.object.probabilidad = i
                     val_probabilidad = i.valor
                     break
 
-            val_via = _calcular_via(self.object, val_intensidad, val_duracion, val_reversibilidad,                      val_extension, val_probabilidad)
+            self.object.via = _calcular_via(self.object, val_intensidad, val_duracion,
+                                            val_reversibilidad, val_extension, val_probabilidad)
 
-            self.object.via = val_via
-
-            for i in consulta_importancia:
-                if i.minimo <= val_via <= i.maximo:
+            for i in Importancia.objects.all():
+                if i.minimo <= self.object.via <= i.maximo:
                     self.object.importancia_estudio = i
                     break
 
@@ -275,64 +263,107 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin):
                 "Datos del estudio modificados exitosamente",
                 extra_tags='alert'
                 )
-        return super(ModelFormMixin, self).form_valid(form)
+        return super().form_valid(form)
 
     # def get_context_data(self, **kwargs):
     #   context = super(EstudioUpdate, self).get_context_data(**kwargs)
     #   return context
 
-    def grado_perturbacion(self):
+    @classmethod
+    def grado_perturbacion(cls):
         """aa
         """
-        GRADO_PERTUBACION = ('Fuerte', 'Medio', 'Suave')
-        return GRADO_PERTUBACION
 
-    def valor_sa(self):
-        """aa
-        """
-        VALOR_SA = ('Muy Alto', 'Alto', 'Medio', 'Bajo')
-        return VALOR_SA
+        grado_pertubacion = (
+            'Fuerte',
+            'Medio',
+            'Suave'
+            )
+        return grado_pertubacion
 
-    def ext_clasificacion(self):
+    @classmethod
+    def valor_sa(cls):
         """aa
         """
-        EXT_CLASIFICACION = ('Generalizada (>75%)', 'Extensiva (35-74%)', 'Local (10-34%)', 'Puntual (<10%)')
-        return EXT_CLASIFICACION
+        valor_sa = (
+            'Muy Alto',
+            'Alto',
+            'Medio',
+            'Bajo'
+            )
+        return valor_sa
 
-    def dur_criterios(self):
+    @classmethod
+    def ext_clasificacion(cls):
         """aa
         """
-        DUR_CRITERIOS = ('Menos de 2 años', '2 a 5 años', '5 a 10 años', 'Mas de 10 años')
-        return DUR_CRITERIOS
+        ext_clasificacion = (
+            'Generalizada (>75%)',
+            'Extensiva (35-74%)',
+            'Local (10-34%)',
+            'Puntual (<10%)'
+            )
+        return ext_clasificacion
 
-    def rev_clasificacion(self):
+    @classmethod
+    def dur_criterios(cls):
         """aa
         """
-        REV_CLASIFICACION = ('Irreversible', 'Requiere Tratamiento', 'Medianamente Reversible', 'Reversible')
-        return REV_CLASIFICACION
+        dur_criterios = (
+            'Menos de 2 años',
+            '2 a 5 años',
+            '5 a 10 años',
+            'Mas de 10 años'
+            )
+        return dur_criterios
 
-    def probabilidad(self):
+    @classmethod
+    def rev_clasificacion(cls):
         """aa
         """
-        PROBABILIDAD = ('Alta', 'Media', 'Baja', 'Nula')
-        return PROBABILIDAD
+        rev_clasificacion = (
+            'Irreversible',
+            'Requiere Tratamiento',
+            'Medianamente Reversible',
+            'Reversible'
+            )
+        return rev_clasificacion
+
+    @classmethod
+    def probabilidad(cls):
+        """aa
+        """
+        probabilidad = (
+            'Alta',
+            'Media',
+            'Baja',
+            'Nula'
+            )
+        return probabilidad
 
     def get_success_url(self):
         """aa
         """
         if self.request.POST.get('editar'):
             return reverse('index')
+        return reverse('index')
 
 def _calcular_via(estudio, valor_intensidad, valor_duracion, valor_reversibilidad,
-                   valor_extension, valor_probabilidad):
+                  valor_extension, valor_probabilidad):
     """Calculo del VIA
     """
-    return valor_intensidad*(estudio.pondIntensidad/100) + valor_extension*(estudio.pondExtension/100) + valor_duracion*(estudio.pondDuracion/100) + valor_reversibilidad*(estudio.pondReversibilidad/100) + valor_probabilidad*(estudio.pondProbabilidad/100)
+    inte = valor_intensidad*(estudio.pondIntensidad/100)
+    dur = valor_extension*(estudio.pondExtension/100)
+    ext = valor_duracion*(estudio.pondDuracion/100)
+    rev = valor_reversibilidad*(estudio.pondReversibilidad/100)
+    prob = valor_probabilidad*(estudio.pondProbabilidad/100)
 
-def eliminar_estudio(request, pk):
+    return inte + dur + ext + rev + prob
+
+def eliminar_estudio(request, pk_id):
     """Funcion que elimina un estudio
     """
-    estudio = Estudio.objects.get(id=pk).delete()
+    Estudio.objects.get(id=pk_id).delete()
     messages.success(request, "Estudio eliminado exitosamente", extra_tags='alert')
     return HttpResponseRedirect(reverse('index'))
 

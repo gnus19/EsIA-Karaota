@@ -17,7 +17,7 @@ from django.urls import path
 from configuracion.views import EstudioUpdate, EstudioCreate
 from . import views
 
-urlpatterns = [ #pylint: disable=invalid-name
+urlpatterns = [
     path('index/', views.index, name='index'),
     path('agregar_estudio/', EstudioCreate.as_view(), name='agregar_estudio'),
     path('editar_estudio/<int:pk>/', EstudioUpdate.as_view(), name='editar_estudio'),
