@@ -313,7 +313,120 @@ class PruebaFormularioEstudio(StaticLiveServerTestCase):
         self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
         time.sleep(5)
 
-        
+        ### Prueba a bases de calculo ###
+        self.browser.get('%s%s' % (self.live_server_url, '/configuracion/tablas/'))
+        time.sleep(4)
+        self.browser.execute_script("window.scrollTo(0, 1080)") #movemos el scroll un poco
+        time.sleep(2)
+        self.browser.find_element_by_css_selector('.btn').click()
+        time.sleep(4)
+        self.browser.find_element_by_name('valor1').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor1').send_keys("9.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor2').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor2').send_keys("6.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor6').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor6').send_keys("6.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor8').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor8').send_keys("1.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor9').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor9').send_keys("4.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor12').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor12').send_keys("0.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor13').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor13').send_keys("9.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor14').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor14').send_keys("6.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor15').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor15').send_keys("4.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor16').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor16').send_keys("1.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor17').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor17').send_keys("1.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor19').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor19').send_keys("8.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor21').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor21').send_keys("9.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor24').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor24').send_keys("0.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor27').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor27').send_keys("2.0")
+        time.sleep(1)
+        self.browser.find_element_by_name('valor32').clear()
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+        #self.browser.find_element_by_name('valor32').send_keys("1.0")
+        time.sleep(2)
+        self.browser.find_element_by_name('submit').click()
+        time.sleep(5)
+
+
+        # Prueba para las validaciones
+        # self.browser.find_element_by_css_selector('.btn').click()
+        # time.sleep(2)
+        # self.browser.find_element_by_name('valor32').clear()
+        # confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        # time.sleep(2)
+        # confirmacion.accept()
 
 
     def tearDown(self):
