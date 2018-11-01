@@ -280,6 +280,39 @@ class PruebaFormularioEstudio(StaticLiveServerTestCase):
         self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
         time.sleep(5)
 
+        # Prueba de ponderaciones
+        self.browser.find_element_by_css_selector('.btn').click() # Hacemos click en agregar
+        time.sleep(4)
+        nombre = "Impacto 6"
+        self.browser.find_element_by_name('nombre').send_keys(nombre) #agregamos el nombre
+        time.sleep(2)
+        select_tipo = Select(self.browser.find_element_by_name('tipo'))
+        time.sleep(2)
+        select_tipo.select_by_visible_text('Biologico')
+        # time.sleep(2)
+        # self.browser.find_element_by_name('probabilidad').send_keys(4) #agregamos la probabilidad
+        time.sleep(2)
+        self.browser.execute_script("window.scrollTo(0, 720)") #movemos el scroll un poco
+        time.sleep(2)
+        self.browser.find_element_by_name('pondIntensidad').send_keys(21) #agregamos la ponderacion de la intensidad
+        time.sleep(2)
+        self.browser.find_element_by_name('pondExtension').send_keys(20)#agregamos la ponderacion de la extension
+        time.sleep(2)
+        self.browser.find_element_by_name('pondDuracion').send_keys(30) #agregamos la ponderacion de la duracion
+        time.sleep(2)
+        self.browser.find_element_by_name('pondReversibilidad').send_keys(10) #agregamos la ponderacion de la reversibilidad
+        time.sleep(2)
+        self.browser.find_element_by_name('pondProbabilidad').send_keys(20)  #agregamos la ponderacion de la probabilidad
+        time.sleep(2)
+        self.browser.find_element_by_name('editar').click() # Hacemos click en agregar
+        time.sleep(2)
+        confirmacion = self.browser.switch_to.alert #para las alertas del navegador
+        time.sleep(2)
+        confirmacion.accept()
+
+        self.browser.get('%s%s' % (self.live_server_url, '/configuracion/index/'))
+        time.sleep(5)
+
         
 
 
