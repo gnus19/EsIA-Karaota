@@ -15,13 +15,30 @@ Including another URLconf
 """
 from django.urls import path
 from configuracion.views import EstudioUpdate, EstudioCreate
+from configuracion.views import ActividadCreate, ActividadUpdate
+from configuracion.views import DisciplinaCreate, DisciplinaUpdate
+from configuracion.views import MacroCreate, MacroUpdate
 from . import views
 
 urlpatterns = [
     path('index/', views.index, name='index'),
     path('agregar_estudio/', EstudioCreate.as_view(), name='agregar_estudio'),
     path('editar_estudio/<int:pk>/', EstudioUpdate.as_view(), name='editar_estudio'),
-    path('eliminar_estudio/<int:pk>/', views.eliminar_estudio, name='eliminar_estudio'),
+    path('eliminar_estudio/<int:pk_id>/', views.eliminar_estudio, name='eliminar_estudio'),
     path('tablas/', views.tablas, name='tablas'),
     path('modificar_tablas/', views.modificar_tablas, name='modificar_tablas'),
+    path('agregar_actividad/', ActividadCreate.as_view(), name='agregar_actividad'),
+    path('editar_actividad/<int:pk>/', ActividadUpdate.as_view(), name='editar_actividad'),
+    path('eliminar_actividad/<int:pk_id>/', views.eliminar_actividad, name='eliminar_actividad'),
+    path('agregar_disciplina/', DisciplinaCreate.as_view(), name='agregar_disciplina'),
+    path('editar_disciplina/<int:pk>/', DisciplinaUpdate.as_view(), name='editar_disciplina'),
+    path('eliminar_disciplina/<int:pk_id>/',
+         views.eliminar_disciplina,
+         name='eliminar_disciplina'),
+    path('agregar_macro/', MacroCreate.as_view(), name='agregar_macro'),
+    path('editar_macro/<int:pk>/', MacroUpdate.as_view(), name='editar_macro'),
+    path('eliminar_macro/<int:pk_id>/', views.eliminar_macro, name='eliminar_macro'),
+    path('actividades/', views.actividades, name='actividades'),
+    path('macros/', views.macros, name='macros'),
+    path('disciplinas/', views.disciplinas, name='disciplinas'),
 ]

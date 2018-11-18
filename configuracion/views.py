@@ -1,4 +1,5 @@
-"""aa
+"""
+   Funcionalidades de Configuracion
 """
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
@@ -6,15 +7,19 @@ from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from configuracion.forms import EstudioForm
+from configuracion.forms import EstudioForm, ActividadForm, MacroForm, DisciplinaForm
 from configuracion.models import Estudio, Intensidad, Duracion, Extension
 from configuracion.models import Reversibilidad, Probabilidad, Importancia
+from configuracion.models import Actividad, Macro, Disciplina
 from configuracion.models import GRADO_PERTUBACION
 from configuracion.models import VALOR_SA, EXT_CLASIFICACION, DUR_CRITERIOS
 from configuracion.models import REV_CLASIFICACION, PROBABILIDAD
 
+
 def index(request):
-    """Index de los impactos y listado de los mismos
+    """
+       Funcion que muestra los estudios físicos, biologicos y socioculturales
+       que se encuentran registrados en la base de datos
     """
 
     estudios_fisicos = Estudio.objects.filter(tipo="FS")
@@ -51,7 +56,8 @@ def index(request):
     return render(request, 'configuracion/index.html', {'lista':lista})
 
 class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many-ancestors
-    """Formulario para registrar un estudio/impacto
+    """
+       Clase que permite registrar un estudio
     """
     model = Estudio
     form_class = EstudioForm
@@ -59,7 +65,9 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
     success_url = reverse_lazy('index')
 
     def form_valid(self, form):
-        """asas
+        """
+           Funcion llamada cuando los campos para crear un estudio se llenan correctamente.
+           Retorna un HttpResponse
         """
         # pylint: disable=attribute-defined-outside-init
         self.object = form.save(commit=False)
@@ -69,7 +77,8 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
         return super().form_valid(form)
 
     def _asignar_valores_estudio(self):
-        """asas
+        """
+           Funcion que permite modificar los valores de un estudio
         """
         grado_perturbacion = self.request.POST.get('grado_perturbacion')
         valor_sa = self.request.POST.get('valor_sociocultural')
@@ -127,7 +136,8 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def grado_perturbacion(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'grado de perturbacion'
         """
 
         grado_pertubacion = (
@@ -139,7 +149,8 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def valor_sa(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'valor sociocultural'
         """
         valor_sa = (
             'Muy Alto',
@@ -151,7 +162,9 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def ext_clasificacion(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'clasificacion de
+           la extension'
         """
         ext_clasificacion = (
             'Generalizada (>75%)',
@@ -163,7 +176,9 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def dur_criterios(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'criterio de la
+           duracion'
         """
         dur_criterios = (
             'Menos de 2 años',
@@ -175,7 +190,9 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def rev_clasificacion(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'clasificacion de
+           la reversibildad'
         """
         rev_clasificacion = (
             'Irreversible',
@@ -187,7 +204,9 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def probabilidad(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'clasificacion de
+           la probabilidad'
         """
         probabilidad = (
             'Alta',
@@ -198,7 +217,8 @@ class EstudioCreate(CreateView, SuccessMessageMixin): # pylint: disable=too-many
         return probabilidad
 
 class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many-ancestors
-    """Actualizacion de los datos del formulario
+    """
+        Clase que permite modificar los datos de los estudios
     """
     model = Estudio
     form_class = EstudioForm
@@ -206,7 +226,9 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
     success_message = "Datos del Estudio actualizados correctamente"
 
     def form_valid(self, form):
-        """aa
+        """
+           Funcion llamada cuando los campos para actualizar el formulario
+           se llenan correctamente. Retorna un HttpResponse
         """
         if self.request.POST.get('editar'):
             # pylint: disable=attribute-defined-outside-init
@@ -221,7 +243,8 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
         return super().form_valid(form)
 
     def _asignar_valores_estudio(self):
-        """asas
+        """
+           Funcion que permite modificar los valores de un estudio
         """
         grado_perturbacion = self.request.POST.get('grado_perturbacion')
         valor_sa = self.request.POST.get('valor_sociocultural')
@@ -279,7 +302,8 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def grado_perturbacion(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'grado de perturbacion'
         """
 
         grado_pertubacion = (
@@ -291,7 +315,8 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def valor_sa(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'valor sociocultural'
         """
         valor_sa = (
             'Muy Alto',
@@ -303,7 +328,9 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def ext_clasificacion(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'clasificacion de
+           la extension'
         """
         ext_clasificacion = (
             'Generalizada (>75%)',
@@ -315,7 +342,9 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def dur_criterios(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'criterio de la
+           duracion'
         """
         dur_criterios = (
             'Menos de 2 años',
@@ -327,7 +356,9 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def rev_clasificacion(cls):
-        """aa
+        """
+            Metodo que muestra las opciones disponibles para 'clasificacion de
+            la reversibildad'
         """
         rev_clasificacion = (
             'Irreversible',
@@ -339,7 +370,9 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 
     @classmethod
     def probabilidad(cls):
-        """aa
+        """
+           Metodo que muestra las opciones disponibles para 'clasificacion de
+           la probabilidad'
         """
         probabilidad = (
             'Alta',
@@ -350,7 +383,8 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
         return probabilidad
 
     def get_success_url(self):
-        """aa
+        """
+           Funcion que permite hacer un POST de la informacion actualizada
         """
         if self.request.POST.get('editar'):
             return reverse('index')
@@ -359,7 +393,8 @@ class EstudioUpdate(UpdateView, SuccessMessageMixin): # pylint: disable=too-many
 # pylint: disable=too-many-arguments
 def _calcular_via(estudio, valor_intensidad, valor_duracion, valor_reversibilidad,
                   valor_extension, valor_probabilidad):
-    """Calculo del VIA
+    """
+        Funcion que permite hacer un POST de la informacion actualizada
     """
     inte = valor_intensidad*(estudio.pondIntensidad/100)
     dur = valor_extension*(estudio.pondExtension/100)
@@ -370,14 +405,19 @@ def _calcular_via(estudio, valor_intensidad, valor_duracion, valor_reversibilida
     return inte + dur + ext + rev + prob
 
 def eliminar_estudio(request, pk_id):
-    """Funcion que elimina un estudio
+    """
+        Funcion que permite eliminar un estudio
     """
     Estudio.objects.get(id=pk_id).delete()
     messages.success(request, "Estudio eliminado exitosamente", extra_tags='alert')
     return HttpResponseRedirect(reverse('index'))
 
 def modificar_tablas(request):
-    """aa
+    """
+       Funcion que permite modificar las tablas que forman la base de calculo,
+       esto es la valoracion de la intensidad, extension, duracion,
+       reversibilidad, las probabilidades y los criterios de clasificacion de
+       importancia del efecto
     """
     intensidad_fuerte = Intensidad.objects.all().filter(grado_perturbacion='F')
     intensidad_medio = Intensidad.objects.all().filter(grado_perturbacion='M')
@@ -440,7 +480,9 @@ def tablas(request):
     return render(request, 'configuracion/tablas.html', context)
 
 def _conseguir_valor_tabla_intensidad_fuerte(request, intensidad_fuerte):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       intensidad para el grado de pertuberancia fuerte
     """
     for i in intensidad_fuerte:
         if i.valor_sociocultural == 'MA':
@@ -457,7 +499,9 @@ def _conseguir_valor_tabla_intensidad_fuerte(request, intensidad_fuerte):
             i.save()
 
 def _conseguir_valor_tabla_intensidad_medio(request, intensidad_medio):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       intensidad para el grado de pertuberancia medio
     """
     for i in intensidad_medio:
         if i.valor_sociocultural == 'MA':
@@ -474,7 +518,9 @@ def _conseguir_valor_tabla_intensidad_medio(request, intensidad_medio):
             i.save()
 
 def _conseguir_valor_tabla_intensidad_suave(request, intensidad_suave):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       intensidad para el grado de pertuberancia suave
     """
     for i in intensidad_suave:
         if i.valor_sociocultural == 'MA':
@@ -491,7 +537,9 @@ def _conseguir_valor_tabla_intensidad_suave(request, intensidad_suave):
             i.save()
 
 def _conseguir_valor_tabla_extension(request, extension):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       extension
     """
     for i in extension:
         if i.clasificacion == 'GE':
@@ -508,7 +556,9 @@ def _conseguir_valor_tabla_extension(request, extension):
             i.save()
 
 def _conseguir_valor_tabla_duracion(request, duracion):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       duracion
     """
     for i in duracion:
         if  i.criterio == 'M2':
@@ -525,7 +575,9 @@ def _conseguir_valor_tabla_duracion(request, duracion):
             i.save()
 
 def _conseguir_valor_tabla_reversibilidad(request, reversibilidad):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       reversibilidad
     """
     for i in reversibilidad:
         if  i.clasificacion == 'IR':
@@ -542,7 +594,9 @@ def _conseguir_valor_tabla_reversibilidad(request, reversibilidad):
             i.save()
 
 def _conseguir_valor_tabla_probabilidad(request, probabilidad):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       probabilidad
     """
     for i in probabilidad:
         if  i.probabilidad == 'A':
@@ -559,7 +613,9 @@ def _conseguir_valor_tabla_probabilidad(request, probabilidad):
             i.save()
 
 def _conseguir_valor_tabla_importancia(request, importancia):
-    """aaa
+    """
+       Funcion que permite guardar los datos modificados en la tabla de
+       los criterios de clasificación de la importancia del efecto
     """
     for i in importancia:
         if  i.importancia == 'MA':
@@ -574,3 +630,194 @@ def _conseguir_valor_tabla_importancia(request, importancia):
         else:
             i.valor = request.POST.get('valor32')
             i.save()
+
+class ActividadCreate(CreateView): # pylint: disable=too-many-ancestors
+    """
+       Clase que permite registrar un actividad macro
+    """
+    model = Actividad
+    form_class = ActividadForm
+    template_name = 'configuracion/agregar_actividad.html'
+    success_url = reverse_lazy('actividades')
+
+    def form_valid(self, form):
+        """
+           aaaa
+        """
+        # pylint: disable=attribute-defined-outside-init
+
+        messages.success(self.request, "Actividad agregado exitosamente", extra_tags='alert')
+        return super().form_valid(form)
+
+class ActividadUpdate(UpdateView): # pylint: disable=too-many-ancestors
+    """
+        Clase que permite modificar los datos de los estudios
+    """
+    model = Actividad
+    form_class = ActividadForm
+    template_name = 'configuracion/agregar_actividad.html'
+    success_url = reverse_lazy('actividades')
+
+    def form_valid(self, form):
+        """
+           Funcion llamada cuando los campos para actualizar el formulario
+           se llenan correctamente. Retorna un HttpResponse
+        """
+        if self.request.POST.get('editar'):
+            # pylint: disable=attribute-defined-outside-init
+
+            messages.success(
+                self.request,
+                "Datos de la actividad modificados exitosamente",
+                extra_tags='alert'
+                )
+        return super().form_valid(form)
+
+class DisciplinaCreate(CreateView): # pylint: disable=too-many-ancestors
+    """
+       Clase que permite registrar un actividad macro
+    """
+    model = Disciplina
+    form_class = DisciplinaForm
+    template_name = 'configuracion/agregar_disciplina.html'
+    success_url = reverse_lazy('disciplinas')
+
+    def form_valid(self, form):
+        """
+           aaaa
+        """
+        # pylint: disable=attribute-defined-outside-init
+
+        messages.success(self.request, "Disciplina agregado exitosamente", extra_tags='alert')
+        return super().form_valid(form)
+
+class DisciplinaUpdate(UpdateView): # pylint: disable=too-many-ancestors
+    """
+        Clase que permite modificar los datos de las disciplinas
+    """
+    model = Disciplina
+    form_class = DisciplinaForm
+    template_name = 'configuracion/agregar_disciplina.html'
+    success_url = reverse_lazy('disciplinas')
+
+    def form_valid(self, form):
+        """
+           Funcion llamada cuando los campos para actualizar el formulario
+           se llenan correctamente. Retorna un HttpResponse
+        """
+        if self.request.POST.get('editar'):
+            # pylint: disable=attribute-defined-outside-init
+
+            messages.success(
+                self.request,
+                "Datos de la disciplina modificados exitosamente",
+                extra_tags='alert'
+                )
+        return super().form_valid(form)
+
+class MacroCreate(CreateView): # pylint: disable=too-many-ancestors
+    """
+       Clase que permite registrar un actividad macro
+    """
+    model = Macro
+    form_class = MacroForm
+    template_name = 'configuracion/agregar_macro.html'
+    success_url = reverse_lazy('macros')
+
+    def form_valid(self, form):
+        """
+           aaaa
+        """
+        # pylint: disable=attribute-defined-outside-init
+
+        messages.success(self.request, "Actividad macro agregado exitosamente", extra_tags='alert')
+        return super().form_valid(form)
+
+class MacroUpdate(UpdateView): # pylint: disable=too-many-ancestors
+    """
+        Clase que permite modificar los datos de las actividades macros
+    """
+    model = Macro
+    form_class = MacroForm
+    template_name = 'configuracion/agregar_macro.html'
+    success_url = reverse_lazy('macros')
+
+    def form_valid(self, form):
+        """
+           Funcion llamada cuando los campos para actualizar el formulario
+           se llenan correctamente. Retorna un HttpResponse
+        """
+        if self.request.POST.get('editar'):
+            # pylint: disable=attribute-defined-outside-init
+
+            messages.success(
+                self.request,
+                "Datos de la actividad macro modificados exitosamente",
+                extra_tags='alert'
+                )
+        return super().form_valid(form)
+
+def eliminar_actividad(request, pk_id):
+    """
+        Funcion que permite eliminar una actividad
+    """
+    Actividad.objects.get(id=pk_id).delete()
+    messages.success(request, "Actividad eliminado exitosamente", extra_tags='alert')
+    return HttpResponseRedirect(reverse('actividades'))
+
+def eliminar_macro(request, pk_id):
+    """
+        Funcion que permite eliminar una actividad macro
+    """
+    Macro.objects.get(id=pk_id).delete()
+    messages.success(request, "Actividad Macro eliminado exitosamente", extra_tags='alert')
+    return HttpResponseRedirect(reverse('macros'))
+
+def eliminar_disciplina(request, pk_id):
+    """
+        Funcion que permite eliminar una disciplina
+    """
+    Disciplina.objects.get(id=pk_id).delete()
+    messages.success(request, "Disciplina eliminado exitosamente", extra_tags='alert')
+    return HttpResponseRedirect(reverse('disciplinas'))
+
+def actividades(request):
+    """
+    adad
+    """
+    if Macro.objects.all():
+        actividades_macros = Macro.objects.all()
+        actividades_especificas = Actividad.objects.all()
+        actividades_disciplinas = Disciplina.objects.all()
+        context = {
+            'actividades': actividades_especificas,
+            'macros': actividades_macros,
+            'disciplinas': actividades_disciplinas,
+        }
+        return render(request, 'configuracion/actividades.html', context)
+    messages.success(
+        request,
+        "No existen actividades macros. Debe crear una primero",
+        extra_tags='alert'
+        )
+    return HttpResponseRedirect(reverse('macros'))
+
+def macros(request):
+    """
+    adad
+    """
+    actividades_macros = Macro.objects.all()
+    context = {
+        'macros': actividades_macros,
+    }
+    return render(request, 'configuracion/macros.html', context)
+
+def disciplinas(request):
+    """
+    adad
+    """
+    discipli = Disciplina.objects.all()
+    context = {
+        'disciplinas': discipli,
+    }
+    return render(request, 'configuracion/disciplinas.html', context)

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Editar Usuario</h1>
+    <form method="POST" class="user-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
+{% block css %}
+<style>
+  select {
+    display: block;
+  }
+</style>
+{% endblock css %}

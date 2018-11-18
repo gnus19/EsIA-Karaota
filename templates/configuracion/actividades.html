@@ -1,0 +1,80 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'configuracion/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'configuracion/css/configuracion_main.css' %}">
+{% endblock %}
+
+{% block content %}
+	{% if form.errors %}
+	{% for fields in form %}
+	{% for error in fields.errors %}
+	<div class="alert alert2 {{ message.tags }} alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+	<i class=""><strong>{{ error }}</strong></i>
+	</div>
+	{% endfor %}
+	{% endfor %}
+	{% endif %}
+
+<div class="container">
+	<div class="row justify-content-center p-3">
+		<h1>Actividades</h1>
+	</div>
+
+	<div class="row justify-content-center">
+		<div class="col-md-8 col-sm-12" align="center">
+			<div class="row justify-content-end">
+				<div class="col-md-2 col-sm-4 mr-2">
+					<a class="btn" style="background: #4f6228; color: white;" href="{% url 'disciplinas' %}" ">Disciplinas</a>
+				</div>
+				<div class="col-md-2 col-sm-4">
+					<a class="btn" style="background: #4f6228; color: white;" href="{% url 'macros' %}" ">Macros</a>
+				</div>
+				<div class="col-md-5 col-sm-8">
+					<input type="text" id="busqueda" placeholder="Buscar">
+				</div>
+				<div class="col-md-2 col-sm-4">
+					<a class="btn" style="background: #4f6228; color: white;" onclick="buscar()">Buscar</a>
+				</div>
+			</div>
+			<table id="actividades" class="tabla-actividades">
+				<tr>
+					<th>Nombre</th>
+					<th>Descripcion</th>
+					<th>Disciplina</th>
+					<th>Macro</th>
+					<th>Acciones</th>
+				</tr>
+				<tbody id="contenido">
+					{% for m in actividades %}
+					<tr>
+						<td>{{m.nombre}}</td>
+						<td>{{m.descripcion}}</td>
+						<td>{{m.disciplina.nombre}}</td>
+						<td>{{m.macro.nombre}}</td>
+						<td><a class="btn rounded pl-3" style="background: #4f6228; color: white;" href="{% url 'editar_actividad' m.id %}">Modificar</a>
+							<a class="btn rounded" style="background: #4f6228; color: white;" onclick = "return confirm('¿Está seguro de eliminar esta actividad?')" href="{% url 'eliminar_actividad' m.id %}">Eliminar</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="row justify-content-center mt-2">
+		<div class="col-md-5 col-sm-6 align-self-center" align="center">
+			<a class="btn rounded" style="background: #4f6228; color: white;" href="{% url 'agregar_actividad' %}">Agregar actividad</a>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static 'configuracion/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'configuracion/js/actividades.js' %}"></script>
+{% endblock %}

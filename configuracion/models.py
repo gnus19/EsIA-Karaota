@@ -1,4 +1,5 @@
-""" Models de Configuracion
+"""
+   Modelo de Configuracion
 """
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -59,9 +60,29 @@ MEDIOS = (
     ('BIO', 'Biologico'),
     ('SC', 'Socio-Cultural'),
     )
+# MACRO = (
+#     ('PI', 'Proceso de Inicio'),
+#     ('PP', 'Proceso de Planificación'),
+#     ('PE', 'Proceso de Ejecucion'),
+#     ('PCS', 'Proceso de Control y Seguimiento'),
+#     ('PC', 'Proceso de Cierre'),
+#     )
+# DISCIPLINA = (
+#     ('IN', 'Integración'),
+#     ('SK', 'Stakeholder'),
+#     ('AL', 'Alcance'),
+#     ('RE', 'Recurso'),
+#     ('TI', 'Tiempo'),
+#     ('CO', 'Costo'),
+#     ('RI', 'Riesgo'),
+#     ('CA', 'Calidad'),
+#     ('AD', 'Adquisición'),
+#     ('COM', 'Comunicación'),
+#     )
 
 class Intensidad(models.Model):
-    """Tabla Intensidad
+    """
+       Clase que representa la tabla de Intensidad
     """
     valor_sociocultural = models.CharField(
         choices=VALOR_SA,
@@ -80,7 +101,8 @@ class Intensidad(models.Model):
         )
 
     class Meta:
-        """Meta de Intensidad
+        """
+           Clase que especifica los datos unicos a incluir en la tabla de Intensidad
         """
 
         unique_together = (
@@ -89,7 +111,8 @@ class Intensidad(models.Model):
             )
 
 class Extension(models.Model):
-    """Tabla Estudio
+    """
+       Clase que representa la tabla de Extension
     """
     clasificacion = models.CharField(
         choices=EXT_CLASIFICACION,
@@ -103,7 +126,8 @@ class Extension(models.Model):
         )
 
 class Duracion(models.Model):
-    """Tabla Duracion
+    """
+       Clase que representa la tabla de Duracion
     """
     criterio = models.CharField(
         choices=DUR_CRITERIOS,
@@ -117,7 +141,8 @@ class Duracion(models.Model):
         )
 
 class Reversibilidad(models.Model):
-    """Tabla Reversibilidad
+    """
+       Clase que representa la tabla de Reversibilidad
     """
     clasificacion = models.CharField(
         choices=REV_CLASIFICACION,
@@ -131,7 +156,8 @@ class Reversibilidad(models.Model):
         )
 
 class Probabilidad(models.Model):
-    """Tabla Probabilidad
+    """
+       Clase que representa la tabla de Probabilidad
     """
     probabilidad = models.CharField(
         choices=PROBABILIDAD,
@@ -145,7 +171,8 @@ class Probabilidad(models.Model):
         )
 
 class Importancia(models.Model):
-    """Tabla Importancia
+    """
+       Clase que representa la tabla de Importancia
     """
     importancia = models.CharField(
         choices=NIVEL_IMPORTANCIA,
@@ -165,7 +192,8 @@ class Importancia(models.Model):
         )
 
 class Estudio(models.Model):
-    """Tabla Estudio
+    """
+       Clase que representa la tabla de Estudio
     """
     nombre = models.CharField(
         max_length=40,
@@ -236,3 +264,110 @@ class Estudio(models.Model):
         default='',
         on_delete=models.PROTECT
         )
+
+class Macro(models.Model):
+    """
+       Clase que representa la tabla de Macro
+    """
+    nombre = models.CharField(
+        max_length=40,
+        default="",
+        )
+    descripcion = models.CharField(
+        max_length=40,
+        default=""
+        )
+    proyecto = models.CharField(
+        max_length=40,
+        default=""
+        )
+
+    class Meta:
+        """
+           Clase  macro
+        """
+
+        unique_together = (
+            ('nombre',
+             'proyecto'),
+            )
+
+    def __str__(self):
+        """
+            formato de aparicion en frontend
+        """
+        return '{}'.format(self.nombre)
+
+class Disciplina(models.Model):
+    """
+       Clase que representa la tabla de Disciplina
+    """
+    nombre = models.CharField(
+        max_length=40,
+        default="",
+        )
+    descripcion = models.CharField(
+        max_length=40,
+        default=""
+        )
+    proyecto = models.CharField(
+        max_length=40,
+        default=""
+        )
+
+    class Meta:
+        """
+           Clase  macro
+        """
+
+        unique_together = (
+            ('nombre',
+             'proyecto'),
+            )
+
+    def __str__(self):
+        """
+            formato de aparicion en frontend
+        """
+        return '{}'.format(self.nombre)
+
+class Actividad(models.Model):
+    """
+       Clase que representa la tabla de Actividad
+    """
+    nombre = models.CharField(
+        max_length=40,
+        default="",
+        )
+    descripcion = models.CharField(
+        max_length=300,
+        default=""
+        )
+    disciplina = models.ForeignKey(
+        Disciplina,
+        default='',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+        )
+    macro = models.ForeignKey(
+        Macro,
+        default='',
+        on_delete=models.CASCADE
+        )
+    amenazas = models.CharField(
+        max_length=500,
+        default=""
+        )
+
+    class Meta:
+        """
+           Clase disciplina
+        """
+
+        unique_together = (
+            ('nombre',
+             'macro',
+             'disciplina'),
+            )
+        
